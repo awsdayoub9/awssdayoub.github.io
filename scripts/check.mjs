@@ -38,6 +38,7 @@ const ALLOWED = [
   /Phase 2/g, /المرحلة الثانية/g,           // ZATCA Phase 2
   /\bPhase[  ][1-6]\b/g, /المرحلة[  ][1-6]\b/g, // the six phases on the method page
   /awsdayoub1@gmail\.com/g,
+  /awsdayoub9\.github\.io/g,
   /aws-dayoub-7bba83257/g,
 ];
 const FORBIDDEN_NUMERIC = [

@@ -1,4 +1,4 @@
-# awsdayoub.github.io
+# awsdayoub9.github.io
 
 Bilingual (English at `/`, Arabic RTL at `/ar/`) portfolio of Aws Dayoub, Odoo developer and ERP functional
 consultant. Static site built with Astro 7, deployed to GitHub Pages by GitHub Actions. No client-side
@@ -171,12 +171,12 @@ and every later submission is forwarded. No key, no dashboard, no tracking on th
 
 ## Deployment
 
-1. Create the repository `AwsDayoub/awsdayoub.github.io` on GitHub (public).
+1. Create the repository `AwsDayoub/awsdayoub9.github.io` on GitHub (public).
 2. Repository **Settings → Pages → Build and deployment → Source = GitHub Actions**.
 3. Push `main`. `.github/workflows/deploy.yml` runs `withastro/action@v6` (which runs `npm run build`, so the copy
    and SEO checks gate the deploy) and `actions/deploy-pages@v5`. The site is served at
-   `https://awsdayoub.github.io/`; `/404.html` is served with a real 404 status.
-4. After the first deploy: submit `https://awsdayoub.github.io/sitemap-index.xml` in Google Search Console and
+   `https://awsdayoub9.github.io/`; `/404.html` is served with a real 404 status.
+4. After the first deploy: submit `https://awsdayoub9.github.io/sitemap-index.xml` in Google Search Console and
    Bing Webmaster Tools, and activate FormSubmit (above).
 
 ## Copy rules that the code assumes

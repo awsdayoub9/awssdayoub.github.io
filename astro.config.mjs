@@ -10,7 +10,7 @@ const lastmod = lastmodMap();
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://awsdayoub.github.io',
+  site: 'https://awsdayoub9.github.io',
   trailingSlash: 'always',
   compressHTML: 'jsx',
   build: { inlineStylesheets: 'never' }, // 'always' drops the stylesheet entirely in Astro 7.3.1

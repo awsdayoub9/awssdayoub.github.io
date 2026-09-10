@@ -3,7 +3,7 @@ title: "Privacy Notice | Aws Dayoub"
 description: "No cookies or analytics on this static site: preferences stay in your browser, and the contact form is forwarded by FormSubmit to Aws Dayoub's email."
 h1: "Privacy notice: no cookies, no analytics, one contact form"
 lead: "This site is a static portfolio. It sets no cookies, runs no analytics and receives your details only when you choose to send them."
-og_alt: "Privacy notice for awsdayoub.github.io: no cookies, no analytics, contact form forwarded by FormSubmit."
+og_alt: "Privacy notice for awsdayoub9.github.io: no cookies, no analytics, contact form forwarded by FormSubmit."
 locale: en
 translationKey: privacy
 kind: privacy

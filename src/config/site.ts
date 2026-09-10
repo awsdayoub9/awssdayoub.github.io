@@ -6,7 +6,7 @@ export type Locale = 'en' | 'ar';
 
 export const site = {
   name: 'Aws Dayoub',
-  url: 'https://awsdayoub.github.io',
+  url: 'https://awsdayoub9.github.io',
   email: 'awsdayoub1@gmail.com',
   /** Digits only, no plus sign: used by wa.me */
   phoneDigits: '963983354124',

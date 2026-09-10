@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { parseFrontmatter } from './frontmatter.mjs';
 
-export const SITE = 'https://awsdayoub.github.io';
+export const SITE = 'https://awsdayoub9.github.io';
 export const LOCALES = ['en', 'ar'];
 
 export const includeDrafts = () => process.env.PUBLISH_DRAFTS === '1';
