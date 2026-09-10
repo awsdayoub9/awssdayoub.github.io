@@ -24,7 +24,7 @@ export const site = {
   /** Availability indicator: Aws owns this flag. Text comes from i18n site.availability.text. */
   availability: { enabled: true },
   /** Search-engine ownership tokens (Google Search Console 'HTML tag' method, Bing Webmaster Tools 'Meta tag'). Empty = no tag emitted. */
-  verification: { google: '', bing: '' },
+  verification: { google: 'WzgAyorhjzJ_fTlKwuM1N4N5EBb37nMVp8PT1RVe3wA', bing: '' },
   themeColor: { light: '#F6F5F1', dark: '#0F1215' },
   locales: ['en', 'ar'] as const,
 } as const;
