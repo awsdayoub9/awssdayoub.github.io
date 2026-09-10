@@ -1,0 +1,21 @@
+---
+/** Odoo 14–19 version rail with two migration brackets. HTML/CSS only (spec §5.4, C20). */
+import { t, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const r = t(locale).rail;
+const ticks = r.labels.map((label, i) => ({ label, at: i * 20 }));
+---
+<figure class="rail" role="img" aria-label={r.aria}>
+  <div class="rail__line" aria-hidden="true">
+    {ticks.map((tk) => (
+      <span class="rail__tick" style={`--at:${tk.at}`}><span class="rail__label mono">{tk.label}</span></span>
+    ))}
+  </div>
+  <span class="rail__bracket" style="--from:0;--to:80" aria-hidden="true">
+    <span class="rail__bracket-label mono"><bdi>{r.bracket_1}</bdi></span>
+  </span>
+  <span class="rail__bracket rail__bracket--end" style="--from:80;--to:100" aria-hidden="true">
+    <span class="rail__bracket-label mono"><bdi>{r.bracket_2}</bdi></span>
+  </span>
+</figure>

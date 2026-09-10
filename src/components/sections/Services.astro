@@ -1,0 +1,48 @@
+---
+/** Practice areas: five cards, each with a Read-more link to its page (or the method page). */
+import { t, anchorUrl, type Locale } from '../../i18n';
+import { pageHref } from '../../seo/pages';
+import SpecSection from '../SpecSection.astro';
+import CellGrid from '../CellGrid.astro';
+import Chip from '../Chip.astro';
+import Arrow from '../../icons/arrow.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const s = t(locale).services;
+const readMore = s.read_more ?? t('en').services.read_more;
+type Item = (typeof s.items)[number] & { href?: string; more_aria?: string };
+const items = s.items as Item[];
+const hrefs = await Promise.all(
+  items.map((it) => (it.href ? pageHref(locale, it.href, it.href === 'how-i-work' ? 'process' : 'services') : Promise.resolve(''))),
+);
+---
+<SpecSection id="services" index={s.index} runningTitle={s.running_title} heading={s.h2}>
+  <p class="lead">{s.lead}</p>
+  <CellGrid cols="3">
+    {items.map((it, i) => (
+      <div class="cell service">
+        <span class="mono cell__index">{it.index}</span>
+        <h3 class="cell__title">{it.title}</h3>
+        <p class="service__body">{it.body}</p>
+        <p class="service__deliverable"><span class="mono">{s.receive_label}</span>{it.receive}</p>
+        {it.apps.length > 0 && (
+          <ul class="chips service__apps" aria-label={s.chips_aria}>
+            {it.apps.map((app) => <Chip noCase>{app}</Chip>)}
+          </ul>
+        )}
+        {it.apps_note && <p class="mono service__apps-note">{it.apps_note}</p>}
+        {hrefs[i] && (
+          <p class="service__more">
+            {/* descriptive link text (Lighthouse link-text): the per-card "Read more about …" string is the visible label */}
+            <a class="btn btn--text" href={hrefs[i]}>{it.more_aria || `${readMore} ${it.title}`}<Arrow class="icon icon-dir" aria-hidden="true" focusable="false" /></a>
+          </p>
+        )}
+      </div>
+    ))}
+    <div class="cell cell--wide">
+      <p class="small">{s.closing}</p>
+      <a class="btn btn--text" href={anchorUrl(locale, 'contact')}>{s.cta}<Arrow class="icon icon-dir" aria-hidden="true" focusable="false" /></a>
+    </div>
+  </CellGrid>
+</SpecSection>

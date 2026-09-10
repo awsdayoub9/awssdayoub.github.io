@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "purpose": "UI strings of the document-page templates (DocPage, insights index, RSS, language-switcher fallback). Kept separate from en.json so the copy team can fold them in; every string here is chrome, not page copy."
+  },
+  "related": "Related pages",
+  "questions": "Questions",
+  "author_by": "By",
+  "published": "Published",
+  "updated": "Updated",
+  "sources": "Sources",
+  "tags": "Topics",
+  "read_article": "Read the article",
+  "engagement_index": "Engagements on record",
+  "lang_fallback_aria": "Arabic edition: home page (this page has no Arabic version)",
+  "insights": {
+    "title": "Odoo Insights | Aws Dayoub",
+    "description": "Working notes from Odoo projects by Aws Dayoub: migration, customisation and the decisions companies face before an engagement.",
+    "h1": "Insights: working notes from Odoo projects",
+    "lead": "Notes written for the people who decide on an Odoo project, from the migrations, customisations and implementations I have worked on.",
+    "og_alt": "Odoo insights by Aws Dayoub: working notes on migration, customisation and engagement decisions.",
+    "breadcrumb": "Insights"
+  },
+  "rss": {
+    "title": "Aws Dayoub — Odoo insights",
+    "description": "Working notes from Odoo projects: migration, customisation and engagement decisions.",
+    "label": "RSS feed"
+  }
+}

@@ -1,0 +1,53 @@
+---
+import { Picture } from 'astro:assets';
+import avatar from '../../assets/aws-dayoub.jpg';
+import { whatsappLink, mailtoLink, site } from '../../config/site';
+import { t, anchorUrl, splitAt, bidi, type Locale } from '../../i18n';
+import Availability from '../Availability.astro';
+import WhatsApp from '../../icons/whatsapp.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+const h = c.hero;
+const [emailBefore, emailAfter] = splitAt(h.email_line, 'email');
+---
+<section id="hero" class="hero" aria-labelledby="hero-h1">
+  <div class="doc hero__grid">
+    <p class="mono hero__eyebrow">{bidi(h.eyebrow)}</p>
+    <div class="hero__intro">
+      <figure class="portrait">
+        <div class="portrait__mat">
+          <div class="portrait__img">
+            <Picture
+              src={avatar}
+              widths={[230, 460]}
+              sizes="(min-width: 900px) 230px, 96px"
+              formats={['avif', 'webp']}
+              width={230}
+              height={230}
+              priority
+              alt={h.portrait_alt}
+            />
+          </div>
+        </div>
+        <figcaption class="mono portrait__caption">
+          <span>{h.caption_1}</span>
+          <span><bdi>{h.caption_2}</bdi></span>
+        </figcaption>
+      </figure>
+      <h1 id="hero-h1" class="hero__h1">{h.h1}</h1>
+    </div>
+    <p class="hero__lead">{h.lead}</p>
+    <Availability locale={locale} class="hero__avail" />
+    <div class="hero__ctas">
+      <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+        <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+        <span>{h.cta_primary}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+      </a>
+      <a class="btn btn--outline" href={anchorUrl(locale, 'process')}>{h.cta_secondary}</a>
+    </div>
+    <p class="mono hero__micro">{h.microcopy}</p>
+    <p class="hero__email">{emailBefore}<a href={mailtoLink(c.cta.email_subject)}><bdi>{site.email}</bdi></a>{emailAfter}</p>
+  </div>
+</section>

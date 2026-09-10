@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import EngagementPage from '../../../layouts/EngagementPage.astro';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('engagements', (e) => e.data.lang === 'ar')).sort((a, b) => a.data.order - b.data.order);
+  return all.map((entry, i) => ({
+    params: { slug: entry.data.key },
+    props: { entry, prev: all[i - 1], next: all[i + 1] },
+  }));
+}
+const { entry, prev, next } = Astro.props;
+---
+<EngagementPage locale="ar" entry={entry} prev={prev} next={next} />

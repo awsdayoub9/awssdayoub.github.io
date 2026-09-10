@@ -1,0 +1,61 @@
+---
+/**
+ * Running head: wordmark, six primary items linking to PAGES (Services, Work, How I work, About, FAQ,
+ * Contact → /#contact), theme toggle, language switcher, one hard CTA (desktop) or the burger menu
+ * (mobile). Item hrefs fall back to the home anchor while a locale's page is still missing.
+ */
+import { site } from '../config/site';
+import { t, tk, localeUrl, anchorUrl, type Locale } from '../i18n';
+import { navItems, type NavKey } from '../seo/pages';
+import ThemeToggle from './ThemeToggle.astro';
+import LangSwitch from './LangSwitch.astro';
+import Burger from '../icons/burger.svg';
+
+interface Props {
+  locale: Locale;
+  path?: string;
+  /** Nav item that is the current section. */
+  current?: NavKey;
+  langSwitchHref?: string;
+  hasTwin?: boolean;
+}
+const { locale, path = '', current, langSwitchHref, hasTwin = true } = Astro.props;
+const c = t(locale);
+const items = await navItems(locale);
+---
+<header class="site-header">
+  <div class="doc">
+    <a href={localeUrl(locale)} class="wordmark" aria-label={c.site.wordmark_aria}>
+      <span>{c.site.name}</span>
+      <span class="mono" aria-hidden="true">{c.site.wordmark_eyebrow}</span>
+    </a>
+    <nav class="site-nav" aria-label={c.nav.primary_label}>
+      <ul>
+        {items.map((it) => (
+          <li><a href={it.href} aria-current={current === it.key ? 'page' : undefined}>{it.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="header-end">
+      <ThemeToggle locale={locale} />
+      <LangSwitch locale={locale} path={path} href={langSwitchHref} hasTwin={hasTwin} />
+      <a class="btn btn--primary header-cta" href={anchorUrl(locale, 'contact')}>{c.cta.header}</a>
+      <details class="menu">
+        <summary>
+          <Burger class="icon" aria-hidden="true" focusable="false" />
+          <span class="sr-only">{c.nav.menu}</span>
+        </summary>
+        <div class="menu__panel">
+          <nav aria-label={c.nav.menu}>
+            <ul>
+              {items.map((it) => (
+                <li><a href={it.href} aria-current={current === it.key ? 'page' : undefined}>{it.label}</a></li>
+              ))}
+              <li><a href={site.cvHref} download>{tk(locale, 'nav.cv_long')}</a></li>
+            </ul>
+          </nav>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

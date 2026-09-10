@@ -1,0 +1,52 @@
+---
+import { site } from '../../config/site';
+import { t, type Locale } from '../../i18n';
+import SpecSection from '../SpecSection.astro';
+import VersionRail from '../VersionRail.astro';
+import GitHub from '../../icons/github.svg';
+import LinkedIn from '../../icons/linkedin.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tech = t(locale).technical;
+const g = tech.groups;
+const ids = tech.identifiers.split(' · ');
+---
+<SpecSection id="technical" index={tech.index} runningTitle={tech.running_title} heading={tech.h2} band>
+  <p class="technical__intro">{tech.intro}</p>
+  <dl class="datasheet">
+    <div class="datasheet__group">
+      <dt class="mono">{g.odoo.label}</dt>
+      <dd>
+        <ul>{g.odoo.items.map((i) => <li>{i}</li>)}</ul>
+        <p class="datasheet__ids">
+          <span class="mono datasheet__ids-caption">{tech.identifiers_caption}</span>
+          <span class="mono identifiers" dir="ltr" lang="en">{ids.map((id, i) => <><span class="identifiers__item">{id}{i < ids.length - 1 ? ' ·' : ''}</span>{' '}</>)}</span>
+        </p>
+      </dd>
+    </div>
+    <div class="datasheet__group">
+      <dt class="mono">{g.backend.label}</dt>
+      <dd><ul>{g.backend.items.map((i) => <li>{i}</li>)}</ul></dd>
+    </div>
+    <div class="datasheet__group">
+      <dt class="mono">{g.frontend.label}</dt>
+      <dd><ul>{g.frontend.items.map((i) => <li>{i}</li>)}</ul></dd>
+    </div>
+    <div class="datasheet__group datasheet__group--wide">
+      <dt class="mono">{g.integrations.label}</dt>
+      <dd><ul>{g.integrations.items.map((i) => <li>{i}</li>)}</ul></dd>
+    </div>
+    <div class="datasheet__group datasheet__group--wide">
+      <dt class="mono">{g.versions.label}</dt>
+      <dd>
+        <ul>{g.versions.items.map((i) => <li><bdi>{i}</bdi></li>)}</ul>
+        <VersionRail locale={locale} />
+      </dd>
+    </div>
+  </dl>
+  <p class="technical__links">
+    <a href={site.github} rel="noopener"><GitHub class="icon" aria-hidden="true" focusable="false" /><bdi>{tech.links.github}</bdi></a>
+    <a href={site.linkedin} rel="noopener"><LinkedIn class="icon" aria-hidden="true" focusable="false" /><bdi>{tech.links.linkedin}</bdi></a>
+  </p>
+</SpecSection>

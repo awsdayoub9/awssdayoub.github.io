@@ -1,0 +1,26 @@
+---
+/** Ruled index of the engagements (from the collection) shown on the work index page before the body. */
+import { getCollection } from 'astro:content';
+import { td, localeUrl, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = td(locale);
+const entries = (await getCollection('engagements', (e) => e.data.lang === locale)).sort((a, b) => a.data.order - b.data.order);
+---
+{entries.length > 0 && (
+  <section class="docpage__index" aria-labelledby="doc-index">
+    <h2 id="doc-index" class="doc-h2">{d.engagement_index}</h2>
+    <ol class="workindex">
+      {entries.map((e) => (
+        <li>
+          <a href={localeUrl(locale, `work/${e.data.key}`)}>
+            <span class="mono muted workindex__sector">{e.data.sector}</span>
+            <span class="workindex__title">{e.data.title}</span>
+            <span class="mono status workindex__status"><bdi>{e.data.status_label}</bdi></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

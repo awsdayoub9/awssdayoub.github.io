@@ -1,0 +1,26 @@
+---
+/** Renders one `pages` entry through DocPage: Markdown body, plus the engagement index on the work page. */
+import { render } from 'astro:content';
+import DocPage from './DocPage.astro';
+import WorkIndex from '../components/WorkIndex.astro';
+import type { Locale } from '../i18n';
+import type { PageEntry } from '../seo/pages';
+
+interface Props { locale: Locale; entry: PageEntry }
+const { locale, entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const dd = entry.data;
+const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+const qs = new Set(dd.questions.map((q) => norm(q.q)));
+const questionsInBody = headings.some((h) => qs.has(norm(h.text)));
+---
+<DocPage
+  locale={locale} key={dd.translationKey} kind={dd.kind}
+  title={dd.title} description={dd.description} h1={dd.h1} lead={dd.lead} ogAlt={dd.og_alt}
+  breadcrumb={dd.breadcrumb} updated={dd.updated} pubDate={dd.pubDate} tags={dd.tags} sources={dd.sources}
+  questions={dd.questions} questionsInBody={questionsInBody} related={dd.related} cta={dd.cta}
+  profile={dd.kind === 'about'}
+>
+  {dd.kind === 'index' && dd.translationKey === 'work' && <WorkIndex slot="before-body" locale={locale} />}
+  <Content />
+</DocPage>

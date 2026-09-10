@@ -1,0 +1,141 @@
+/* Design tokens — design-spec §3. Light on :root, dark on [data-theme="dark"],
+   plus a prefers-color-scheme fallback for the no-JS case (build-decisions C3). */
+:root {
+  color-scheme: light;
+  --bg: #F6F5F1;
+  --surface: #FFFFFF;
+  --surface-2: #EFEDE7;
+  --text: #1A1F26;
+  --muted: #5A6371;
+  --accent: #0E5C58;
+  --accent-hover: #0B4B48;
+  --accent-contrast: #FFFFFF;
+  --accent-soft: #E3EFED;
+  --brass: #7F5B14;
+  --hairline: #D9D6CE;
+  --border: #7E7A70;
+  --track-todo: #E6E4DD;
+  --focus: #0E5C58;
+  --selection: #CFE5E1;
+  --node-custom-text: #0E5C58;
+  --portrait-tint: .10;
+  --portrait-blend: multiply;
+
+  /* spacing (4px base) */
+  --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem;
+  --s-5: 1.5rem; --s-6: 2rem; --s-7: 3rem; --s-8: 4rem;
+  --s-9: 6rem; --s-10: 8rem;
+  --section-gap: clamp(var(--s-8), 6vw + 1rem, var(--s-10));
+  --cell-pad: clamp(var(--s-4), 2vw + .5rem, var(--s-6));
+  --container: 1200px;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --margin-col: 10rem;
+  --header-h: 4rem;
+  --sticky-bar-h: 4rem;
+
+  /* radius */
+  --r-0: 0; --r-1: 4px; --r-2: 6px; --r-3: 2px;
+
+  /* type roles (font variables come from the Astro Fonts API) */
+  --font-heading: var(--font-serif);
+  --font-body: var(--font-sans);
+  --font-label: var(--font-mono);
+  --font-arabic-system: 'Segoe UI', Tahoma, Arial, sans-serif;
+  --fw-medium: 600;
+  --lh-body: 1.6;
+  --lh-h1: 1.1; --lh-h2: 1.15; --lh-h3: 1.25;
+  --ls-h1: -.01em;
+  --label-transform: uppercase;
+  --label-ls: .06em;
+  --label-weight: 400;
+  --measure: 65ch;
+
+  /* type scale */
+  --fs-label: .8125rem;
+  --fs-small: .9375rem;
+  --fs-body: clamp(1rem, .95rem + .25vw, 1.125rem);
+  --fs-lead: 1.125rem;
+  --fs-statement: 1.25rem;
+  --fs-h3: 1.375rem;
+  --fs-faq: 1.125rem;
+  --fs-h2: clamp(1.625rem, 1.2rem + 1.5vw, 2.25rem);
+  --fs-title: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
+  --fs-h1: clamp(2.125rem, 1.4rem + 3vw, 3.5rem);
+  --h1-measure: 18ch;
+  --lead-measure: 58ch;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0F1215;
+  --surface: #171B20;
+  --surface-2: #1D2228;
+  --text: #E9E7E1;
+  --muted: #A6ACB6;
+  --accent: #79CDC3;
+  --accent-hover: #93DBD2;
+  --accent-contrast: #0F1215;
+  --accent-soft: #16302E;
+  --brass: #D9B76A;
+  --hairline: #2A3038;
+  --border: #8A9099;
+  --track-todo: #242A31;
+  --focus: #79CDC3;
+  --selection: #24484A;
+  --node-custom-text: #E9E7E1;
+  --portrait-tint: .08;
+  --portrait-blend: screen;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --bg: #0F1215;
+    --surface: #171B20;
+    --surface-2: #1D2228;
+    --text: #E9E7E1;
+    --muted: #A6ACB6;
+    --accent: #79CDC3;
+    --accent-hover: #93DBD2;
+    --accent-contrast: #0F1215;
+    --accent-soft: #16302E;
+    --brass: #D9B76A;
+    --hairline: #2A3038;
+    --border: #8A9099;
+    --track-todo: #242A31;
+    --focus: #79CDC3;
+    --selection: #24484A;
+    --node-custom-text: #E9E7E1;
+    --portrait-tint: .08;
+    --portrait-blend: screen;
+  }
+}
+
+/* Arabic edition: Plex Sans Arabic for every role, scaled type, no mono face. */
+:lang(ar) {
+  --font-heading: var(--font-arabic);
+  --font-body: var(--font-arabic);
+  --font-label: var(--font-arabic);
+  --lh-body: 1.8;
+  --lh-h1: 1.35; --lh-h2: 1.35; --lh-h3: 1.4;
+  --ls-h1: 0;
+  --label-transform: none;
+  --label-ls: 0;
+  --label-weight: 600;
+  --measure: 60ch;
+  --fs-label: .875rem;
+  --fs-small: 1rem;
+  --fs-body: clamp(1.0625rem, 1rem + .3vw, 1.1875rem);
+  --fs-lead: 1.1875rem;
+  --fs-statement: 1.3125rem;
+  --fs-h3: 1.4375rem;
+  --fs-faq: 1.1875rem;
+  --fs-h2: clamp(1.6875rem, 1.25rem + 1.6vw, 2.375rem);
+  --fs-h1: clamp(1.9rem, 1.3rem + 2.6vw, 3rem);
+  --h1-measure: 22ch;
+  --lead-measure: 52ch;
+}
+
+@media (max-width: 767px) {
+  :root { --header-h: 3.5rem; }
+}

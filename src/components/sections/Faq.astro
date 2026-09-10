@@ -1,0 +1,49 @@
+---
+/** Home FAQ: the four home-only questions (seo-decisions ownership), an optional link per answer, and a link to /faq/. */
+import { whatsappLink, mailtoLink } from '../../config/site';
+import { t, bidi, type Locale } from '../../i18n';
+import { pageHref, pageLink } from '../../seo/pages';
+import SpecSection from '../SpecSection.astro';
+import WhatsApp from '../../icons/whatsapp.svg';
+import Arrow from '../../icons/arrow.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+const f = c.faq;
+type Item = (typeof f.items)[number] & { link?: string; link_label?: string };
+const items = f.items as Item[];
+const links = await Promise.all(items.map((it) => (it.link ? pageHref(locale, it.link, 'services') : Promise.resolve(''))));
+const moreHref = f.more ? await pageLink(locale, f.more_href ?? 'faq') : '';
+---
+<SpecSection id="faq" index={f.index} runningTitle={f.running_title} heading={f.h2}>
+  <div class="faq-grid">
+    <div>
+      <div class="faq-list">
+        {items.map((it, i) => (
+          <details class="faq">
+            <summary><span>{it.q}</span><span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__body">
+              <p>{bidi(it.a)}</p>
+              {links[i] && it.link_label && <p><a href={links[i]}>{it.link_label}</a></p>}
+            </div>
+          </details>
+        ))}
+      </div>
+      {moreHref && (
+        <p class="after-grid">
+          <a class="btn btn--text" href={moreHref}>{f.more}<Arrow class="icon icon-dir" aria-hidden="true" focusable="false" /></a>
+        </p>
+      )}
+    </div>
+    <aside class="cta-card" aria-label={f.card.eyebrow}>
+      <p class="mono">{f.card.eyebrow}</p>
+      <p>{f.card.body}</p>
+      <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+        <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+        <span>{f.card.cta}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+      </a>
+      <p class="small"><a href={mailtoLink(c.cta.email_subject)}>{f.card.email_link}</a></p>
+    </aside>
+  </div>
+</SpecSection>

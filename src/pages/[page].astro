@@ -1,0 +1,11 @@
+---
+/** Top-level document pages in English: /services/, /work/, /how-i-work/, /faq/, /privacy/ (from the `pages` collection). */
+import DocRoute from '../layouts/DocRoute.astro';
+import { topLevelPaths } from '../seo/routes';
+
+export async function getStaticPaths() {
+  return topLevelPaths('en');
+}
+const { entry } = Astro.props;
+---
+<DocRoute locale="en" entry={entry} />

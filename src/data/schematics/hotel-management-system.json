@@ -1,0 +1,35 @@
+{
+  "key": "guest-folio",
+  "nodes": [
+    { "id": "rate-engine", "type": "custom", "x": 3, "y": 6, "w": 26,
+      "label": { "en": "Rate engine", "ar": "محرك الأسعار" },
+      "flow": { "en": "prices reservations", "ar": "يسعر الحجوزات" } },
+    { "id": "reservations", "type": "custom", "x": 37, "y": 6, "w": 26,
+      "label": { "en": "Reservations", "ar": "الحجوزات" },
+      "flow": { "en": "check room inventory, open a guest folio", "ar": "تتحقق من مخزون الغرف وتفتح حساب النزيل" } },
+    { "id": "room-inventory", "type": "custom", "x": 71, "y": 6, "w": 26,
+      "label": { "en": "Room inventory", "ar": "مخزون الغرف" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "pos-outlets", "type": "std", "x": 3, "y": 38, "w": 26, "idLine": "pos.order",
+      "label": { "en": "POS outlets", "ar": "منافذ نقاط البيع" },
+      "flow": { "en": "service charges to the guest folio", "ar": "رسوم الخدمات إلى حساب النزيل" } },
+    { "id": "guest-folio", "type": "custom", "key": true, "x": 37, "y": 38, "w": 26,
+      "label": { "en": "Guest folio", "ar": "حساب النزيل" },
+      "flow": { "en": "charges accumulate on the folio", "ar": "تتجمع الرسوم على الحساب" } },
+    { "id": "night-audit", "type": "custom", "x": 71, "y": 38, "w": 26,
+      "label": { "en": "Night audit", "ar": "التدقيق الليلي" },
+      "flow": { "en": "posts the day's revenue and closes the operating day", "ar": "يرحل إيراد اليوم ويقفل يوم التشغيل" } },
+    { "id": "reports", "type": "custom", "x": 3, "y": 70, "w": 26,
+      "label": { "en": "Reports: occupancy, revenue, daily operations", "ar": "التقارير: الإشغال والإيرادات والعمليات اليومية" },
+      "flow": { "en": "", "ar": "" } }
+  ],
+  "links": [
+    { "from": "rate-engine", "to": "reservations", "kind": "accent", "arrow": "end" },
+    { "from": "reservations", "to": "room-inventory", "kind": "accent", "arrow": "both" },
+    { "from": "reservations", "to": "guest-folio", "kind": "accent", "arrow": "end" },
+    { "from": "pos-outlets", "to": "guest-folio", "kind": "muted", "arrow": "end" },
+    { "from": "guest-folio", "to": "night-audit", "kind": "accent", "arrow": "end" },
+    { "from": "night-audit", "to": "reports", "kind": "accent", "arrow": "end",
+      "waypoints": [ { "x": 84, "y": 61 }, { "x": 16, "y": 61 } ] }
+  ]
+}

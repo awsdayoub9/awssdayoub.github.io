@@ -1,0 +1,19 @@
+---
+/**
+ * Visible breadcrumb trail. The matching BreadcrumbList node is built by src/seo/graph.ts and merged
+ * into the page's single JSON-LD block by BaseLayout, so this component renders markup only.
+ */
+import type { Crumb } from '../seo/graph';
+
+interface Props { items: Crumb[]; label: string; class?: string }
+const { items, label, class: cls } = Astro.props;
+---
+<nav class:list={['breadcrumbs', cls]} aria-label={label}>
+  <ol>
+    {items.map((it, i) => (
+      <li>
+        {it.href && i < items.length - 1 ? <a href={it.href}>{it.label}</a> : <span aria-current="page">{it.label}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>

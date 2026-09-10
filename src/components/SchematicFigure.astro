@@ -1,0 +1,40 @@
+---
+/** Figure = legend row + schematic stage + title block + caption + hidden long description. */
+import Legend from './Legend.astro';
+import Schematic, { type SchematicData } from './Schematic.astro';
+import TitleBlock from './TitleBlock.astro';
+import { t, type Locale } from '../i18n';
+import hotel from '../data/schematics/hotel-management-system.json';
+import portal from '../data/schematics/portal-pos-tap-payments.json';
+import construction from '../data/schematics/construction-project-suite.json';
+
+const schematics: Record<string, SchematicData> = {
+  'hotel-management-system': hotel as SchematicData,
+  'portal-pos-tap-payments': portal as SchematicData,
+  'construction-project-suite': construction as SchematicData,
+};
+
+interface Props {
+  slug: string;
+  locale: Locale;
+  showIds?: boolean;
+  alt: string;
+  titleblock: { project: string; odoo: string; status: string; role: string };
+  note?: string;
+  /** Unique per figure on the page (marker ids, alt id). */
+  uid: string;
+}
+const { slug, locale, showIds = false, alt, titleblock, note, uid } = Astro.props;
+const data = schematics[slug];
+if (!data) throw new Error(`No schematic data for ${slug}`);
+const c = t(locale);
+const altId = `alt-${uid}`;
+---
+<figure class="schematic-figure" aria-describedby={altId}>
+  <Legend locale={locale} />
+  <Schematic data={data} locale={locale} showIds={showIds} uid={uid} />
+  <TitleBlock locale={locale} values={titleblock} />
+  <figcaption class="mono">{c.work.caption}</figcaption>
+  {note && <p class="mono schematic-note">{note}</p>}
+  <p id={altId} class="sr-only">{alt}</p>
+</figure>

@@ -1,0 +1,892 @@
+{
+  "_meta": {
+    "locale": "en",
+    "spelling": "British",
+    "owned_phrase": "Configuration before customisation.",
+    "confirm_before_launch": [
+      "hero.microcopy, services.closing and process.note (the quote follows discovery; scope changes approved before work starts)",
+      "site.availability (wording and enabled flag)",
+      "terms.items[1] and faq.items[1] (modules delivered in a repository you own)",
+      "terms.items[4] and faq.items[2] (a support retainer can be agreed after go-live)",
+      "faq.items[3] (an NDA can be signed before discovery)",
+      "contact.hours and faq.items[0] (replies in Arabic or English, UTC+3 working hours)",
+      "engagements.*.attribution (iLines permission for the two iLines case studies)",
+      "positioning: employed at iLines Solutions and available for freelance projects"
+    ],
+    "notes": [
+      "Every factual claim traces to the CV. No numbers appear other than years, MM/YYYY dates, Odoo versions 14 to 19, the phone number, section indices, UTC+3, C1, B1, B.Sc., ZATCA Phase 2 and the {size} and {year} tokens.",
+      "Engagement copy is mirrored in src/content/engagements/*.md (run npm run sync after editing the engagements object here).",
+      "Schematic node labels and flow notes live in src/data/schematics/*.json with en/ar maps.",
+      "The home FAQ holds only the four home-only questions from seo-decisions.md; every other question lives on /faq/ or on a service page.",
+      "No testimonials exist. The references section is removed from the copy; the testimonials collection stays empty.",
+      "SEO titles and descriptions may say 'Freelance Odoo developer' (the buyer's search phrase for the offer); body copy says employed at iLines Solutions and available for freelance projects."
+    ]
+  },
+  "site": {
+    "name": "Aws Dayoub",
+    "wordmark_eyebrow": "Odoo · ERP",
+    "wordmark_aria": "Aws Dayoub, home",
+    "skip": "Skip to content",
+    "availability": {
+      "enabled": true,
+      "text": "Available for new implementation and customisation projects"
+    }
+  },
+  "nav": {
+    "services": "Services",
+    "work": "Work",
+    "process": "How I work",
+    "about": "About",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "cv": "Download CV",
+    "cv_long": "Download CV (PDF)",
+    "menu": "Menu",
+    "primary_label": "Primary",
+    "footer_label": "Footer",
+    "breadcrumb_label": "Breadcrumb",
+    "home": "Home"
+  },
+  "lang": {
+    "switch_label": "العربية",
+    "switch_label_on_ar_pages": "English"
+  },
+  "theme": {
+    "to_dark": "Switch to dark theme",
+    "to_light": "Switch to light theme"
+  },
+  "cta": {
+    "header": "Discuss a project",
+    "whatsapp": "Message on WhatsApp",
+    "whatsapp_short": "WhatsApp",
+    "email_short": "Email",
+    "whatsapp_prefill": "Hello Aws, I would like to discuss an Odoo project for our company.",
+    "email_subject": "Odoo project",
+    "new_tab": "(opens in a new tab)"
+  },
+  "contact_values": {
+    "phone": "+963 983 354 124",
+    "phone_href": "tel:+963983354124",
+    "whatsapp_number": "963983354124",
+    "email": "awsdayoub1@gmail.com",
+    "linkedin": "linkedin.com/in/aws-dayoub-7bba83257",
+    "linkedin_href": "https://www.linkedin.com/in/aws-dayoub-7bba83257",
+    "github": "github.com/AwsDayoub",
+    "github_href": "https://github.com/AwsDayoub",
+    "cv_href": "/Aws_Dayoub_CV.pdf"
+  },
+  "footer": {
+    "description": "Odoo developer and ERP functional consultant, based in Latakia, Syria, working remotely with companies in Riyadh and Dubai.",
+    "built": "Built with Astro, hosted on GitHub Pages. No cookies, no analytics.",
+    "copyright": "© {year} Aws Dayoub"
+  },
+  "hero": {
+    "eyebrow": "Odoo developer · Techno-functional ERP consultant · Remote, UTC+3",
+    "h1": "Odoo, from requirements to go-live — and supported after it.",
+    "lead": "Odoo developer and ERP functional consultant for HR and payroll, accounting, sales, purchasing, inventory, projects and POS on Odoo 14 to 19. Currently with iLines Solutions in Riyadh (remote); available for freelance implementation and customisation projects, in Arabic and English. Configuration before customisation, written scope before code.",
+    "cta_primary": "Message on WhatsApp",
+    "cta_secondary": "See how an engagement runs",
+    "microcopy": "Discovery first. Written scope, then the quote.",
+    "email_line": "Or email {email}",
+    "portrait_alt": "Aws Dayoub",
+    "caption_1": "Aws Dayoub — Latakia, Syria",
+    "caption_2": "UTC+3 · AR · EN · DE"
+  },
+  "facts": {
+    "caption": "Experience and credentials",
+    "aria_label": "Experience and credentials",
+    "items": [
+      "iLines Solutions, Riyadh — current, remote",
+      "Hash Code IT Solutions, Dubai — remote",
+      "IRAM, Latakia",
+      "B.Sc. Software Engineering, Tishreen University",
+      "Odoo BTCO training, 2024"
+    ]
+  },
+  "situations": {
+    "index": "§ 01",
+    "running_title": "When businesses engage me",
+    "h2": "When businesses engage me",
+    "standfirst": "In my experience, Odoo projects rarely fail on code. They fail between the workshop and the go-live.",
+    "answer_label": "What I do",
+    "items": [
+      {
+        "index": "01",
+        "statement": "You are moving finance, HR and payroll onto Odoo and want one accountable person from workshop to go-live.",
+        "explain": "Consultants gather requirements, developers build, and projects fail in the gap between them. As a techno-functional consultant I close that gap myself.",
+        "answer": "Run the requirements workshop, write the specification, build and configure, migrate the data, run UAT and hand over."
+      },
+      {
+        "index": "02",
+        "statement": "Standard Odoo almost fits, and the gap needs to be specified and built without touching core.",
+        "explain": "The last part of the process does not match the standard app, and a quick core edit would cost you the next upgrade.",
+        "answer": "Map the need to standard Odoo first, then build the remainder as inheritance-based modules that survive upgrades."
+      },
+      {
+        "index": "03",
+        "statement": "Odoo has to talk to a payment gateway, attendance devices or a government platform, and the money has to land in Accounting.",
+        "explain": "An integration that stops at the technical handshake leaves finance reconciling by hand. The transaction has to reach the ledger.",
+        "answer": "Build the integration through controllers and REST APIs with reconciliation into Sales and Accounting, as delivered for the Tap gateway."
+      },
+      {
+        "index": "04",
+        "statement": "You are on Odoo 14 to 17 and need to reach 18 or 19 without losing live data or custom modules.",
+        "explain": "Custom modules written for an older framework break on upgrade, and live data cannot be re-entered by hand.",
+        "answer": "Migrate the database and modules, refactor deprecated APIs and validate data integrity after each step, as done from 14 to 18 and to 19."
+      }
+    ],
+    "cta": "If any of these sounds familiar, let us talk"
+  },
+  "services": {
+    "index": "§ 02",
+    "running_title": "Practice areas",
+    "h2": "Practice areas",
+    "lead": "Configuration before customisation, written scope before code.",
+    "receive_label": "You receive",
+    "chips_aria": "Odoo apps",
+    "read_more": "Read more",
+    "hub_href": "services",
+    "items": [
+      {
+        "index": "01",
+        "title": "Requirements and specification",
+        "body": "Workshops with your stakeholders and consultants. Each need is mapped to standard Odoo first, and the specification states what will be configured and what will be built.",
+        "receive": "The functional specification and a written scope.",
+        "apps": [
+          "Sales",
+          "Purchasing",
+          "Inventory",
+          "Accounting",
+          "HR"
+        ],
+        "apps_note": "",
+        "href": "how-i-work",
+        "more_aria": "Read more about requirements and specification"
+      },
+      {
+        "index": "02",
+        "title": "Implementation and configuration",
+        "body": "Standard apps set up for how your business actually runs and demonstrated to you before anything reaches production, with experience within a large multi-company Odoo suite. For Saudi companies: chart of accounts, VAT and ZATCA Phase 2 e-invoicing through Odoo's standard Saudi localisation modules, set up and verified in the ZATCA simulation environment before go-live.",
+        "receive": "A configured system demonstrated on a staging database.",
+        "apps": [
+          "HR and Payroll",
+          "Accounting",
+          "Sales",
+          "Purchasing",
+          "Inventory",
+          "Projects",
+          "POS"
+        ],
+        "apps_note": "",
+        "href": "services/odoo-implementation",
+        "more_aria": "Read more about implementation and configuration"
+      },
+      {
+        "index": "03",
+        "title": "Custom development and integrations",
+        "body": "Approval workflows, access rights and record rules, QWeb PDF and Excel reports, dashboards and portal pages. I do not edit core; custom work is inheritance-based. Integration experience includes payment gateways (Tap, delivered with reconciliation into Sales and Accounting), biometric attendance devices and government platforms, built through controllers and REST APIs.",
+        "receive": "Documented modules in a repository you own, with each integration's data flow written down.",
+        "apps": [],
+        "apps_note": "Any Odoo app",
+        "href": "services/odoo-customization",
+        "more_aria": "Read more about custom development and integrations"
+      },
+      {
+        "index": "04",
+        "title": "Version migrations, Odoo 14 to 19",
+        "body": "Database and module upgrades, deprecated-API refactoring, data-integrity validation after each step, and scripts that carry live data across module upgrades.",
+        "receive": "An upgraded test database validated before cut-over.",
+        "apps": [],
+        "apps_note": "All Odoo apps",
+        "href": "services/odoo-migration",
+        "more_aria": "Read more about version migrations"
+      },
+      {
+        "index": "05",
+        "title": "Post-go-live support and handover",
+        "body": "UAT cycles, end-user training (delivered in Arabic or English), documentation, and issue resolution for HR, finance and procurement users. A support retainer can be agreed after go-live.",
+        "receive": "A handover pack and a named person after go-live.",
+        "apps": [
+          "HR and Payroll",
+          "Accounting",
+          "Purchasing"
+        ],
+        "apps_note": "",
+        "href": "services/odoo-support",
+        "more_aria": "Read more about post-go-live support and handover"
+      }
+    ],
+    "closing": "The scope is written after discovery, and the quote follows the scope.",
+    "cta": "Plan your Odoo rollout"
+  },
+  "process": {
+    "index": "§ 03",
+    "running_title": "How an engagement runs",
+    "h2": "How an engagement runs",
+    "caption": "The six phases of an engagement, what happens in each, and what you receive.",
+    "head": {
+      "phase": "Phase",
+      "what": "What happens",
+      "receive": "What you receive"
+    },
+    "phases": [
+      {
+        "number": "01",
+        "label_short": "Discovery",
+        "name": "Discovery call and requirements workshop",
+        "what": "I meet your stakeholders and consultants, walk through the processes in scope and note where standard Odoo already covers them.",
+        "receive": [
+          "Meeting notes",
+          "List of processes in scope"
+        ]
+      },
+      {
+        "number": "02",
+        "label_short": "Specification",
+        "name": "Functional specification and gap analysis",
+        "what": "Each requirement is mapped to configuration or to custom development. Timelines are set here and written into the scope.",
+        "receive": [
+          "Specification marking configured against built",
+          "Written scope and quote"
+        ]
+      },
+      {
+        "number": "03",
+        "label_short": "Build",
+        "name": "Configuration and development",
+        "what": "Built in short demo cycles on a staging database: standard first, custom modules only where the specification shows a gap.",
+        "receive": [
+          "Working increments demonstrated to you",
+          "Staging access"
+        ]
+      },
+      {
+        "number": "04",
+        "label_short": "Migration",
+        "name": "Data migration",
+        "what": "Cleanse, trial migration, then verification of opening balances, stock and open documents before anything is final.",
+        "receive": [
+          "Validated test database",
+          "Migration notes"
+        ]
+      },
+      {
+        "number": "05",
+        "label_short": "UAT",
+        "name": "UAT and key-user training",
+        "what": "Your key users test against the specification and sign off. Training can be delivered in Arabic or English.",
+        "receive": [
+          "Sign-off checklist",
+          "Training sessions"
+        ]
+      },
+      {
+        "number": "06",
+        "label_short": "Go-live",
+        "name": "Go-live, hypercare and support",
+        "what": "Cut-over, close support through the first weeks, then handover or a support retainer that can be agreed after go-live.",
+        "receive": [
+          "Handover pack: documentation and admin access",
+          "Repository you own"
+        ]
+      }
+    ],
+    "note": "The quote follows discovery. Scope changes are written up and approved before work starts.",
+    "more": "The full method, phase by phase",
+    "more_href": "how-i-work",
+    "cta": "Book a discovery call"
+  },
+  "terms": {
+    "index": "§ 04",
+    "running_title": "Terms of engagement",
+    "h2": "Terms of engagement",
+    "items": [
+      {
+        "index": "01",
+        "statement": "Configuration before customisation",
+        "explain": "Standard Odoo wherever it covers the need; custom code only where the specification shows a gap."
+      },
+      {
+        "index": "02",
+        "statement": "You own the code, the repository and the data",
+        "explain": "Modules are delivered in a repository you own, and the database is yours."
+      },
+      {
+        "index": "03",
+        "statement": "Staging and UAT before production",
+        "explain": "Changes are demonstrated on a staging database and signed off before cut-over."
+      },
+      {
+        "index": "04",
+        "statement": "Written scope before work",
+        "explain": "Work starts once the scope is written and agreed; anything that moves later is written up and approved first."
+      },
+      {
+        "index": "05",
+        "statement": "Documentation and handover are part of the scope",
+        "explain": "Training can be delivered in Arabic or English. A support retainer can be agreed after go-live."
+      }
+    ],
+    "more": "Full terms and engagement models",
+    "more_href": "how-i-work"
+  },
+  "work": {
+    "index": "§ 05",
+    "running_title": "Engagement summaries",
+    "h2": "Engagement summaries",
+    "read_more": "Read the full engagement summary",
+    "caption": "System schematic.",
+    "ledger_labels": {
+      "client": "Client and sector",
+      "period": "Period",
+      "role": "Role",
+      "situation": "Situation",
+      "approach": "Approach",
+      "scope": "Scope",
+      "delivered": "Delivered",
+      "delivered_progress": "Delivered so far",
+      "stack": "Stack"
+    },
+    "record_labels": {
+      "heading": "Scope on record",
+      "version": "Version",
+      "modules": "Modules",
+      "integrations": "Integrations",
+      "role": "Role",
+      "status": "Status"
+    },
+    "back": "All engagements",
+    "index_href": "work",
+    "similar_cta": "Discuss a similar engagement",
+    "similar_email": "Or send an email",
+    "prev": "Previous",
+    "next": "Next",
+    "screens_label": "Screens"
+  },
+  "legend": {
+    "label": "Legend",
+    "custom": "Custom module",
+    "standard": "Standard Odoo app",
+    "external": "External integration"
+  },
+  "titleblock": {
+    "project": "Project",
+    "odoo": "Odoo",
+    "status": "Status",
+    "role": "Role"
+  },
+  "engagements": {
+    "hotel-management-system": {
+      "slug": "hotel-management-system",
+      "order": 1,
+      "sector": "Hospitality",
+      "title": "A hotel that closes its own day.",
+      "status": "production",
+      "status_label": "In production · 2024",
+      "period": "03/2024 – 12/2024",
+      "client": "Grand Hotel Tartus — hospitality (production deployment)",
+      "attribution": "Built while employed at IRAM (Latakia); in production at Grand Hotel Tartus.",
+      "role": "Designed and delivered end to end: data model, business logic, views, reports and staff training.",
+      "situation": "The hotel needed a system built around its own front-office operations: reservations, rate policies, night audit and outlet billing.",
+      "situation_detail": "The hotel needed a system built around its own front-office operations: reservations and room availability, rate plans that change with demand and occupancy, outlet billing across the hotel's services, and a night audit that posts the day's revenue and closes the operating day, with reports for occupancy, revenue and daily operations.",
+      "approach": "I worked directly with hotel management and front-desk staff to map the daily operations, and that map became the system design. The property-management modules were built from the ground up on Odoo: data model, business logic, views and reports. Point of Sale was integrated across hotel outlets so service charges accumulate on the guest folio, and the night audit was automated to post the day's revenue and close the operating day. Staff were trained on the delivered system.",
+      "scope": "Front office (check-in and check-out, room assignment, reservations), room inventory and availability, guest folios, rate plans with demand- and occupancy-based pricing, automated night audit, POS across hotel outlets, reports for occupancy, revenue and daily operations.",
+      "delivered": "A property-management system as custom Odoo modules: a rate engine applying demand- and occupancy-based pricing, service charges from POS outlets accumulating on the guest folio, and a night audit that posts the day's revenue and closes the operating day. Staff were trained on the delivered system.",
+      "stack": [
+        "Odoo",
+        "Python",
+        "XML views",
+        "QWeb reports",
+        "POS"
+      ],
+      "odoo_version": "",
+      "record": {
+        "version": "Odoo",
+        "modules": [
+          "Reservations",
+          "Room inventory and availability",
+          "Guest folios",
+          "Rate engine",
+          "Night audit",
+          "Reports: occupancy, revenue, daily operations"
+        ],
+        "integrations": [
+          "Point of Sale across hotel outlets, service charges routed to the guest folio"
+        ],
+        "role": "Designed and delivered end to end",
+        "status": "In production, Grand Hotel Tartus"
+      },
+      "schematic_alt": "Schematic of the hotel system. A rate engine prices reservations, which check room inventory and open a guest folio. POS outlets post service charges to the folio. The night audit posts the day's revenue, closes the operating day and feeds the reports for occupancy, revenue and daily operations. POS is the standard Odoo app; the rest are custom modules.",
+      "detail_note": "",
+      "titleblock": {
+        "project": "Hotel PMS",
+        "odoo": "Odoo",
+        "status": "In production",
+        "role": "End to end"
+      },
+      "screenshots": [],
+      "updated": "2026-09-06"
+    },
+    "portal-pos-tap-payments": {
+      "slug": "portal-pos-tap-payments",
+      "order": 2,
+      "sector": "Portal and payments",
+      "title": "Ordering and paying without the back office.",
+      "status": "deployment",
+      "status_label": "Client deployment · 2025",
+      "period": "2025",
+      "client": "Client deployment via iLines Solutions, Riyadh (client not named)",
+      "attribution": "Delivered as an employee of iLines Solutions.",
+      "role": "Built the portal POS and the payment integration as an employee of iLines Solutions.",
+      "situation": "Portal users browse a catalogue, place simplified orders and track them without back-office access; online payments through Tap are reconciled and posted automatically into Sales and Accounting.",
+      "situation_detail": "Portal users browse a catalogue, place simplified orders and track their status without back-office access. Online payments go through the Tap gateway: each transaction's state is reconciled on return and posted automatically into Sales and Accounting, with a custom order model bridging into the standard Sales app.",
+      "approach": "The portal POS was built on Odoo's website and portal layer: controllers, QWeb templates and JavaScript on the front end, backed by a custom order model that bridges into Sales. The Tap payment gateway was integrated through its redirect and callback flows, with transaction states reconciled on return and the result posted automatically into Sales and Accounting.",
+      "scope": "Portal catalogue, simplified orders with status tracking, custom order model bridging into Sales, Tap payment gateway with redirect and callback flows, transaction-state reconciliation, automatic posting to Sales and Accounting.",
+      "delivered": "A lightweight POS in the Odoo portal backed by a custom order model, with Tap redirect and callback handling, transaction-state reconciliation and automatic posting into Sales and Accounting.",
+      "stack": [
+        "Odoo portal controllers",
+        "QWeb",
+        "JavaScript",
+        "Tap API"
+      ],
+      "odoo_version": "",
+      "record": {
+        "version": "Odoo",
+        "modules": [
+          "Portal catalogue",
+          "Portal order",
+          "Payment transaction handling",
+          "Order tracking in the portal"
+        ],
+        "integrations": [
+          "Tap payment gateway (redirect, callback, reconciliation)",
+          "Sales",
+          "Accounting"
+        ],
+        "role": "Portal POS and payment integration (iLines Solutions)",
+        "status": "Client deployment"
+      },
+      "schematic_alt": "Schematic of the portal POS. A portal user browses the catalogue and places a portal order, which bridges into a standard Sales order and redirects the user to the Tap gateway. Tap's callback updates the payment transaction, which reconciles its state, posts to Sales and Accounting and updates order tracking for the user. Tap is an external integration.",
+      "detail_note": "",
+      "titleblock": {
+        "project": "Portal POS",
+        "odoo": "Odoo",
+        "status": "Deployed",
+        "role": "Build, integrate"
+      },
+      "screenshots": [],
+      "updated": "2026-09-06"
+    },
+    "construction-project-suite": {
+      "slug": "construction-project-suite",
+      "order": 3,
+      "sector": "Contracting",
+      "title": "Budget control that says no before the money leaves.",
+      "status": "progress",
+      "status_label": "In progress · 2025 – present",
+      "period": "2025 – present",
+      "client": "Contracting-sector clients via iLines Solutions (clients not named), Odoo 19",
+      "attribution": "Delivered as an employee of iLines Solutions.",
+      "role": "Developing the project modules, the budget-control mixin and the migration scripts as an employee of iLines Solutions.",
+      "situation": "Project cost control for contracting clients on Odoo 19: CSI cost coding, BOQ comparison, manpower analytics, management dashboards and spending limits on purchase requests, receipts and payment documents.",
+      "situation_detail": "Custom project modules for contracting-sector clients on Odoo 19: CSI cost coding, BOQ comparison, manpower analytics and management dashboards, plus a budget-control layer that enforces spending limits on purchase requests, receipts and payment documents. The modules are live on client projects and keep evolving, so migration scripts carry live project data across module upgrades.",
+      "approach": "The suite is built as custom project modules on Odoo 19: modules for CSI cost coding, BOQ comparison, manpower analytics and management dashboards, plus a reusable validation mixin that enforces spending limits on purchase requests, receipts and payment documents. Because the modules are live on client projects, migration scripts carry live project data across each module upgrade.",
+      "scope": "CSI cost coding, BOQ comparison, manpower analytics, management dashboards, a validation mixin enforcing spending limits on purchase requests, receipts and payment documents, and migration scripts for live project data.",
+      "delivered": "Custom project modules for CSI cost coding, BOQ comparison, manpower analytics and management dashboards, plus a reusable validation mixin that enforces spending limits on purchase requests, receipts and payment documents; migration scripts carry live project data across module upgrades.",
+      "stack": [
+        "Odoo 19",
+        "Python mixins",
+        "Dashboards",
+        "Migration scripts"
+      ],
+      "odoo_version": "19",
+      "record": {
+        "version": "Odoo 19",
+        "modules": [
+          "CSI cost coding",
+          "BOQ comparison",
+          "Manpower analytics",
+          "Management dashboards",
+          "Budget-control mixin",
+          "Migration scripts"
+        ],
+        "integrations": [
+          "Spending-limit validation on purchase requests, receipts and payment documents"
+        ],
+        "role": "Project modules, budget-control mixin and migration scripts (iLines Solutions)",
+        "status": "In progress"
+      },
+      "schematic_alt": "Schematic of the construction suite on Odoo 19. A standard Project carries CSI cost codes. Custom modules cover CSI cost coding, BOQ comparison, manpower analytics and management dashboards. The budget-control mixin enforces spending limits on the purchase request, the receipt and the payment document. Migration scripts carry live project data across module upgrades.",
+      "detail_note": "Migration scripts carry live project data across upgrades.",
+      "titleblock": {
+        "project": "Project suite",
+        "odoo": "19",
+        "status": "In progress",
+        "role": "Build, migrate"
+      },
+      "screenshots": [],
+      "updated": "2026-09-06"
+    }
+  },
+  "record": {
+    "index": "§ 06",
+    "running_title": "Track record",
+    "h2": "Track record",
+    "roles": [
+      {
+        "period": "07/2025 – present",
+        "employer": "iLines Solutions, Riyadh, Saudi Arabia (remote)",
+        "role": "Odoo Developer",
+        "summary": "Custom modules within a large multi-company Odoo suite: HR and payroll, accounting, procurement, project management, inventory and assets. Tap payment integration with reconciliation into Sales and Accounting, a Portal POS, migrations to Odoo 19 and post-go-live support for HR, finance and procurement users."
+      },
+      {
+        "period": "01/2025 – 07/2025",
+        "employer": "Hash Code IT Solutions, Dubai, UAE (remote)",
+        "role": "Odoo Developer",
+        "summary": "Requirement sessions with clients and functional consultants; CRM, Sales, Inventory and Accounting flows mapped to Odoo with the gaps documented; migrations from Odoo 14 to 18; UAT feedback and post-go-live fixes."
+      },
+      {
+        "period": "03/2024 – 12/2024",
+        "employer": "IRAM, Latakia, Syria",
+        "role": "Odoo Developer",
+        "summary": "Hotel management system designed and delivered from the ground up, in production at Grand Hotel Tartus: front office, rate management, automated night audit, POS across hotel services, occupancy and revenue reports, and staff training."
+      }
+    ],
+    "credentials": [
+      {
+        "label": "B.Sc. Software Engineering",
+        "value": "Tishreen University, Latakia, 09/2019 – 10/2024"
+      },
+      {
+        "label": "Odoo BTCO training",
+        "value": "Business Technology and Cloud Operations, 04/2024 – 06/2024"
+      },
+      {
+        "label": "Languages",
+        "value": "Arabic (native), English (C1), German (B1)"
+      },
+      {
+        "label": "Odoo versions worked on",
+        "value": "14 to 19"
+      }
+    ],
+    "cv_button": "Download CV (PDF, {size} KB)"
+  },
+  "rail": {
+    "aria": "Odoo versions 14 to 19; migrations performed from 14 to 18 and to 19",
+    "bracket_1": "migrated 14 → 18",
+    "bracket_2": "migrated → 19",
+    "labels": [
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19"
+    ]
+  },
+  "technical": {
+    "index": "§ 07",
+    "running_title": "For technical evaluators",
+    "h2": "For technical evaluators",
+    "intro": "Techno-functional by practice: I write the specification and the code. I do not edit core; custom work is inheritance-based.",
+    "groups": {
+      "odoo": {
+        "label": "Odoo layer",
+        "items": [
+          "ORM models and computed fields",
+          "XML views and inheritance",
+          "Wizards and special models",
+          "Access rights and record rules",
+          "QWeb PDF and XLSX reports",
+          "OWL and JavaScript components",
+          "HTTP/JSON controllers",
+          "Portal and website"
+        ]
+      },
+      "backend": {
+        "label": "Backend",
+        "items": [
+          "Python",
+          "Django",
+          "PostgreSQL",
+          "REST APIs"
+        ]
+      },
+      "frontend": {
+        "label": "Frontend and tooling",
+        "items": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "Git",
+          "Linux",
+          "Docker",
+          "Celery"
+        ]
+      },
+      "integrations": {
+        "label": "Integrations",
+        "items": [
+          "REST APIs",
+          "Tap payment gateway (redirect, callback)",
+          "Reconciliation into Sales and Accounting",
+          "Biometric attendance devices",
+          "Government platforms"
+        ]
+      },
+      "versions": {
+        "label": "Versions",
+        "items": [
+          "Odoo 14 to 19"
+        ]
+      }
+    },
+    "identifiers_caption": "Models typically in scope",
+    "identifiers": "hr.payslip · account.move · sale.order · purchase.order · stock.picking · project.task · pos.order",
+    "links": {
+      "github": "github.com/AwsDayoub",
+      "linkedin": "linkedin.com/in/aws-dayoub-7bba83257"
+    }
+  },
+  "faq": {
+    "index": "§ 08",
+    "running_title": "Questions buyers ask",
+    "h2": "Questions buyers ask",
+    "items": [
+      {
+        "q": "Do you work remotely with companies in Saudi Arabia and the Gulf?",
+        "a": "Yes. I am based in Latakia and work remotely: currently for a company in Riyadh, previously for one in Dubai. Freelance projects run the same way, remote and in Arabic or English, during UTC+3 working hours.",
+        "link": "",
+        "link_label": ""
+      },
+      {
+        "q": "Who owns the code and the data?",
+        "a": "You do. Modules are delivered in a repository you own and the database is yours. Nothing is locked to me, and you can hand the work to another developer at any time.",
+        "link": "",
+        "link_label": ""
+      },
+      {
+        "q": "What happens after go-live?",
+        "a": "Close support through the first weeks after cut-over, then a handover pack. If you want a named person after that, a support retainer can be agreed after go-live.",
+        "link": "services/odoo-support",
+        "link_label": "How post-go-live support works"
+      },
+      {
+        "q": "How do we start?",
+        "a": "With a discovery call. Then a written specification and scope, and the quote follows the scope. Scope changes are written up and approved before work starts. An NDA can be signed before discovery.",
+        "link": "",
+        "link_label": ""
+      }
+    ],
+    "more": "More questions, answered",
+    "more_href": "faq",
+    "card": {
+      "eyebrow": "Still deciding?",
+      "body": "Send a one-line description of your business and I will tell you whether Odoo fits.",
+      "cta": "Ask on WhatsApp",
+      "email_link": "or send an email"
+    }
+  },
+  "contact": {
+    "index": "§ 09",
+    "running_title": "Start an engagement",
+    "h2": "Start an engagement",
+    "h3": "Start with a short discovery call",
+    "email_button": "Email awsdayoub1@gmail.com",
+    "channels": {
+      "phone": "Phone",
+      "email": "Email",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "cv": "CV (PDF)"
+    },
+    "hours": "Replies in Arabic or English, UTC+3 working hours."
+  },
+  "form": {
+    "title": "Send a written brief",
+    "subject": "New enquiry — awsdayoub.github.io",
+    "from_name": "Portfolio contact form",
+    "name": "Name",
+    "company": "Company",
+    "email": "Work email",
+    "need": "What do you need?",
+    "need_placeholder": "Choose one",
+    "message": "What are you trying to do?",
+    "optional": "Optional",
+    "required": "(required)",
+    "need_options": [
+      "Implementation",
+      "Customisation",
+      "Integration",
+      "Migration",
+      "Support",
+      "Not sure yet"
+    ],
+    "message_hint": "A few lines about your business and where Odoo fits.",
+    "submit": "Send the brief",
+    "note": "Sent through a free form-forwarding service. No tracking on this site.",
+    "privacy_label": "Privacy notice",
+    "privacy_href": "privacy"
+  },
+  "thanks": {
+    "h1": "Thank you — I will reply by email.",
+    "body": "If it is urgent, WhatsApp is faster.",
+    "cta": "Message on WhatsApp",
+    "home": "Back to the home page"
+  },
+  "notfound": {
+    "h1_en": "Page not found",
+    "h1_ar": "الصفحة غير موجودة",
+    "body_en": "The page you were looking for does not exist or has moved. The home page has everything, including how to get in touch.",
+    "body_ar": "الصفحة التي تبحثون عنها غير موجودة أو جرى نقلها. الصفحة الرئيسية تضم كل شيء، بما في ذلك طرق التواصل.",
+    "home_en": "Go to the home page",
+    "home_ar": "الانتقال إلى الصفحة الرئيسية",
+    "contact_en": "Or write to me directly",
+    "contact_ar": "أو راسلني مباشرة"
+  },
+  "sticky": {
+    "aria_label": "Contact",
+    "whatsapp": "WhatsApp",
+    "email": "Email"
+  },
+  "about": {
+    "title": "About: Odoo Developer, Remote from Latakia | Aws Dayoub",
+    "description": "Odoo developer and ERP functional consultant, Odoo 14 to 19, now with iLines Solutions in Riyadh, earlier Hash Code IT Solutions in Dubai, remote from Latakia.",
+    "og_alt": "Aws Dayoub, Odoo developer and ERP functional consultant based in Latakia, working remotely with companies in Riyadh and Dubai.",
+    "h1": "Odoo developer, ERP consultant in Latakia, remote for Riyadh and Dubai",
+    "lead": "I am Aws Dayoub, an Odoo developer and ERP functional consultant based in Latakia, Syria. I am currently with iLines Solutions in Riyadh (remote) and available for freelance implementation and customisation projects.",
+    "paragraphs": [
+      "I take ERP work from the requirements workshop to go-live and support it once live: business process analysis, functional specification and gap analysis, configuration, custom development, data migration, UAT and end-user handover. The delivery experience spans HR and payroll, accounting, sales, purchasing, inventory, project management and POS, on Odoo 14 through 19.",
+      "On the technical side I work across the Odoo stack: Python business logic on the ORM, XML views, QWeb PDF and Excel reports, OWL and JavaScript components, and HTTP/JSON controllers for portal pages, mobile apps and REST integrations. Integration experience includes payment gateways (Tap, delivered with reconciliation into Sales and Accounting), biometric attendance devices and government platforms.",
+      "Configuration before customisation, a written scope before code, and no core edits: custom work is inheritance-based. Working hours are UTC+3, and I work in Arabic and English."
+    ],
+    "more_label": "How I work",
+    "more_href": "how-i-work",
+    "timeline_heading": "Employment",
+    "timeline": [
+      {
+        "period": "07/2025 – present",
+        "employer": "iLines Solutions",
+        "place": "Riyadh, Saudi Arabia (remote)",
+        "role": "Odoo Developer",
+        "summary": "Custom modules within a large multi-company Odoo suite: HR and payroll, accounting, procurement, project management, inventory and assets. Tap payment gateway with automatic reconciliation into Sales and Accounting, a Portal POS, migrations to Odoo 19 and post-go-live support."
+      },
+      {
+        "period": "01/2025 – 07/2025",
+        "employer": "Hash Code IT Solutions",
+        "place": "Dubai, United Arab Emirates (remote)",
+        "role": "Odoo Developer",
+        "summary": "Requirement sessions with clients and functional consultants; CRM, Sales, Inventory and Accounting flows mapped to Odoo with the gaps documented; migrations from Odoo 14 to 18, refactoring deprecated APIs and validating data; UAT feedback and post-go-live fixes."
+      },
+      {
+        "period": "03/2024 – 12/2024",
+        "employer": "IRAM",
+        "place": "Latakia, Syria",
+        "role": "Odoo Developer",
+        "summary": "A complete Hotel Management System on Odoo, designed and delivered from the ground up and in production at Grand Hotel Tartus: front office, rate management with demand- and occupancy-based pricing, automated night audit, POS across hotel services, occupancy and revenue reports, and staff training."
+      }
+    ],
+    "credentials_heading": "Education and training",
+    "credentials": [
+      {
+        "label": "B.Sc. Software Engineering",
+        "value": "Tishreen University, Latakia, 09/2019 – 10/2024"
+      },
+      {
+        "label": "Odoo Business Technology and Cloud Operations (BTCO) training",
+        "value": "Odoo customisation concepts for developers and IT professionals, 04/2024 – 06/2024"
+      }
+    ],
+    "languages_heading": "Languages",
+    "languages": "Arabic (native), English (C1), German (B1)",
+    "cv_button": "Download CV (PDF, {size} KB)"
+  },
+  "icons": {
+    "whatsapp": "WhatsApp",
+    "mail": "Email",
+    "phone": "Phone",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "sun": "Light theme",
+    "moon": "Dark theme",
+    "arrow": "",
+    "plus": "",
+    "burger": "Menu",
+    "external": "(opens in a new tab)"
+  },
+  "manifest": {
+    "name": "Aws Dayoub — Odoo and ERP",
+    "short_name": "Aws Dayoub",
+    "description": "Odoo developer and ERP functional consultant."
+  },
+  "seo": {
+    "home": {
+      "title": "Freelance Odoo Developer & ERP Consultant | Aws Dayoub",
+      "description": "Freelance Odoo developer and ERP functional consultant: implementation, customisation, integrations and Odoo 14 to 19 migrations for Saudi and Gulf companies.",
+      "og_alt": "Aws Dayoub — Odoo developer and ERP functional consultant, from requirements to go-live."
+    },
+    "hotel-management-system": {
+      "title": "Hotel Management System on Odoo | Aws Dayoub",
+      "description": "Custom Odoo modules in production at Grand Hotel Tartus: reservations, guest folios, rate engine, automated night audit and POS charges routed to the folio.",
+      "og_alt": "Hotel management system on Odoo — an engagement summary by Aws Dayoub."
+    },
+    "portal-pos-tap-payments": {
+      "title": "Portal POS and Tap Payments on Odoo | Aws Dayoub",
+      "description": "A lightweight POS in the Odoo portal with Tap payment integration: redirect and callback flows, reconciliation and automatic posting to Sales and Accounting.",
+      "og_alt": "Portal POS and Tap payments on Odoo — an engagement summary by Aws Dayoub."
+    },
+    "construction-project-suite": {
+      "title": "Construction Project Suite on Odoo 19 | Aws Dayoub",
+      "description": "Project modules on Odoo 19 for contracting clients: CSI cost coding, BOQ comparison, manpower analytics, dashboards and spending limits via a validation mixin.",
+      "og_alt": "Construction project suite on Odoo 19 — an engagement summary by Aws Dayoub."
+    },
+    "thanks": {
+      "title": "Message received | Aws Dayoub",
+      "description": "Your message has been sent. Aws Dayoub will reply by email.",
+      "og_alt": "Aws Dayoub — Odoo developer and ERP functional consultant.",
+      "robots": "noindex"
+    },
+    "notfound": {
+      "title": "Page not found | Aws Dayoub",
+      "description": "The page does not exist. Return to the home page of Aws Dayoub, Odoo developer and ERP functional consultant.",
+      "og_alt": "Aws Dayoub — Odoo developer and ERP functional consultant.",
+      "robots": "noindex"
+    },
+    "insights": {
+      "title": "Odoo Notes: Upgrades, Customisation, Vendors | Aws Dayoub",
+      "description": "Working notes from Odoo projects: what breaks on upgrade, when to configure instead of build, and how to choose between a freelancer and a partner.",
+      "h1": "Notes from Odoo projects, written to be checked against",
+      "og_alt": "Notes from Odoo projects by Aws Dayoub: upgrades, customisation and choosing a vendor."
+    }
+  },
+  "og": {
+    "alt": "Aws Dayoub — Odoo developer and ERP functional consultant, from requirements to go-live.",
+    "eyebrow": "Odoo developer · ERP functional consultant",
+    "positioning_line": "Odoo, from requirements to go-live — and supported after it.",
+    "cover_index": "§ 00 · Cover",
+    "url": "awsdayoub.github.io"
+  },
+  "jsonld": {
+    "person_name": "Aws Dayoub",
+    "person_alternate_name": "أوس ديوب",
+    "job_title": "Odoo Developer & ERP Functional Consultant",
+    "service_name": "Aws Dayoub — Odoo ERP Implementation & Customisation",
+    "service_types": [
+      "Odoo implementation",
+      "Odoo customization",
+      "Odoo migration",
+      "Odoo integration",
+      "Odoo support"
+    ],
+    "knows_about": [
+      "Odoo",
+      "ERP implementation",
+      "Python",
+      "PostgreSQL",
+      "OWL",
+      "QWeb"
+    ]
+  }
+}

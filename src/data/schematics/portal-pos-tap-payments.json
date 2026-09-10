@@ -1,0 +1,43 @@
+{
+  "key": "portal-order",
+  "nodes": [
+    { "id": "portal-user", "type": "actor", "x": 3, "y": 6, "w": 26,
+      "label": { "en": "Portal user", "ar": "مستخدم البوابة" },
+      "flow": { "en": "browses the catalogue", "ar": "يتصفح الكتالوج" } },
+    { "id": "portal-catalogue", "type": "custom", "x": 37, "y": 6, "w": 26,
+      "label": { "en": "Portal catalogue", "ar": "كتالوج البوابة" },
+      "flow": { "en": "places a portal order", "ar": "يقدم طلب البوابة" } },
+    { "id": "portal-order", "type": "custom", "key": true, "x": 71, "y": 6, "w": 26,
+      "label": { "en": "Portal order", "ar": "طلب البوابة" },
+      "flow": { "en": "bridges into a Sales order; redirects to Tap", "ar": "يتصل بأمر البيع ويعيد التوجيه إلى Tap" } },
+    { "id": "sales-order", "type": "std", "x": 3, "y": 38, "w": 26, "idLine": "sale.order",
+      "label": { "en": "Sales order", "ar": "أمر البيع" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "payment-transaction", "type": "custom", "x": 37, "y": 38, "w": 26,
+      "label": { "en": "Payment transaction", "ar": "عملية الدفع" },
+      "flow": { "en": "reconciles its state, posts to Sales and Accounting", "ar": "تسوي حالتها وترحل إلى المبيعات والمحاسبة" } },
+    { "id": "tap-gateway", "type": "ext", "x": 71, "y": 38, "w": 26,
+      "label": { "en": "Tap gateway", "ar": "بوابة Tap" },
+      "flow": { "en": "callback", "ar": "الاستدعاء الراجع" } },
+    { "id": "accounting", "type": "std", "x": 3, "y": 70, "w": 26, "idLine": "account.move",
+      "label": { "en": "Accounting", "ar": "المحاسبة" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "order-tracking", "type": "custom", "x": 37, "y": 70, "w": 26,
+      "label": { "en": "Order tracking (portal)", "ar": "تتبع الطلب (البوابة)" },
+      "flow": { "en": "status for the portal user", "ar": "الحالة لمستخدم البوابة" } }
+  ],
+  "links": [
+    { "from": "portal-user", "to": "portal-catalogue", "kind": "muted", "arrow": "end" },
+    { "from": "portal-catalogue", "to": "portal-order", "kind": "accent", "arrow": "end" },
+    { "from": "portal-order", "to": "sales-order", "kind": "accent", "arrow": "end",
+      "waypoints": [ { "x": 76, "y": 29 }, { "x": 16, "y": 29 } ] },
+    { "from": "portal-order", "to": "tap-gateway", "kind": "brass", "arrow": "end",
+      "waypoints": [ { "x": 90, "y": 29 } ] },
+    { "from": "tap-gateway", "to": "payment-transaction", "kind": "brass", "arrow": "end" },
+    { "from": "payment-transaction", "to": "sales-order", "kind": "muted", "arrow": "end" },
+    { "from": "payment-transaction", "to": "accounting", "kind": "muted", "arrow": "end",
+      "waypoints": [ { "x": 44, "y": 61 }, { "x": 16, "y": 61 } ] },
+    { "from": "payment-transaction", "to": "order-tracking", "kind": "accent", "arrow": "end",
+      "waypoints": [ { "x": 56, "y": 61 } ] }
+  ]
+}

@@ -1,0 +1,26 @@
+---
+import { t, anchorUrl, type Locale } from '../../i18n';
+import SpecSection from '../SpecSection.astro';
+import CellGrid from '../CellGrid.astro';
+import Arrow from '../../icons/arrow.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const s = t(locale).situations;
+---
+<SpecSection id="situations" index={s.index} runningTitle={s.running_title} heading={s.h2}>
+  <p class="standfirst">{s.standfirst}</p>
+  <CellGrid cols="2">
+    {s.items.map((it) => (
+      <div class="cell situation">
+        <span class="mono cell__index">{it.index}</span>
+        <h3 class="cell__title">{it.statement}</h3>
+        <p class="situation__explain">{it.explain}</p>
+        <p class="situation__answer"><span class="mono">{s.answer_label}</span>{it.answer}</p>
+      </div>
+    ))}
+  </CellGrid>
+  <p class="after-grid">
+    <a class="btn btn--text" href={anchorUrl(locale, 'contact')}>{s.cta}<Arrow class="icon icon-dir" aria-hidden="true" focusable="false" /></a>
+  </p>
+</SpecSection>

@@ -1,0 +1,59 @@
+---
+import { whatsappLink } from '../../config/site';
+import { t, type Locale } from '../../i18n';
+import { pageLink } from '../../seo/pages';
+import SpecSection from '../SpecSection.astro';
+import WhatsApp from '../../icons/whatsapp.svg';
+import Arrow from '../../icons/arrow.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+const p = c.process;
+const moreHref = p.more ? await pageLink(locale, p.more_href ?? 'how-i-work') : '';
+---
+<SpecSection id="process" index={p.index} runningTitle={p.running_title} heading={p.h2}>
+  <table class="process-table">
+    <caption class="sr-only">{p.caption}</caption>
+    <colgroup><col class="col-phase" /><col /><col /></colgroup>
+    <thead>
+      <tr>
+        <th scope="col" class="mono">{p.head.phase}</th>
+        <th scope="col" class="mono">{p.head.what}</th>
+        <th scope="col" class="mono">{p.head.receive}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {p.phases.map((ph) => (
+        <tr>
+          <th scope="row">
+            <span class="phase__num">{ph.number}</span>
+            <span class="phase__name">{ph.name}</span>
+          </th>
+          <td data-label={p.head.what}>{ph.what}</td>
+          <td data-label={p.head.receive}>
+            <ul class="receive-list">{ph.receive.map((r) => <li>{r}</li>)}</ul>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">
+          <div class="process__foot">
+            <p>{p.note}</p>
+            <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+              <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+              <span>{p.cta}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  {moreHref && (
+    <p class="after-grid">
+      <a class="btn btn--text" href={moreHref}>{p.more}<Arrow class="icon icon-dir" aria-hidden="true" focusable="false" /></a>
+    </p>
+  )}
+</SpecSection>

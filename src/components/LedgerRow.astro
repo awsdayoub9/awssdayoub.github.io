@@ -1,0 +1,8 @@
+---
+interface Props { label: string; class?: string }
+const { label, class: cls } = Astro.props;
+---
+<div class:list={['ledger__row', cls]}>
+  <dt class="mono ledger__label">{label}</dt>
+  <dd class="ledger__value"><slot /></dd>
+</div>

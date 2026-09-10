@@ -1,0 +1,99 @@
+---
+/**
+ * Document shell: html lang/dir, blocking theme script FIRST, meta, Seo, ONE JSON-LD graph, fonts for the
+ * current locale only, skip link, Header, main, Footer, StickyCta, end-of-body handler.
+ * Exactly three inline scripts exist site-wide (build-decisions C2): (a) theme init here,
+ * (b) the end-of-body handler here, (c) the 404 locale reorder in 404.astro.
+ */
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/sections.css';
+import '../styles/pages.css';
+import { Font } from 'astro:assets';
+import { site } from '../config/site';
+import { t, dirOf, type Locale } from '../i18n';
+import { sharedGraph, type Node } from '../seo/graph';
+import type { NavKey } from '../seo/pages';
+import Seo from '../components/Seo.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyCta from '../components/StickyCta.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path?: string;
+  ogType?: 'website' | 'profile' | 'article';
+  ogAlt?: string;
+  noindex?: boolean;
+  alternates?: boolean;
+  /** The same page exists in the other locale (hreflang pair + switcher target). */
+  hasTwin?: boolean;
+  /** Emit a canonical link (false only on the 404 page). */
+  canonical?: boolean;
+  /** Page-specific JSON-LD nodes merged after WebSite/Person/ProfessionalService. */
+  graph?: Node[];
+  /** Emit JSON-LD at all (never on thanks/404). */
+  jsonld?: boolean;
+  rss?: boolean;
+  published?: string;
+  modified?: string;
+  sticky?: boolean;
+  current?: NavKey;
+  langSwitchHref?: string;
+}
+const {
+  locale, title, description, path = '', ogType = 'website', ogAlt, noindex = false, alternates = true,
+  hasTwin = true, canonical = true, graph = [], jsonld = !noindex, rss = false, published, modified,
+  sticky = true, current, langSwitchHref,
+} = Astro.props;
+const c = t(locale);
+const dir = dirOf(locale);
+const ld = jsonld ? { '@context': 'https://schema.org', '@graph': [...sharedGraph(locale), ...graph] } : null;
+
+// (a) theme init: resolves stored preference or system scheme before first paint.
+const themeInit = "(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='dark'&&t!=='light'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}var d=document.documentElement;d.setAttribute('data-theme',t);d.style.colorScheme=t})();";
+
+// (b) end-of-body: theme toggle, language memory, close the mobile menu after a link click.
+const bodyHandler = "(function(){var d=document.documentElement,b=document.querySelector('.theme-toggle');function s(t){if(!b)return;var k=t==='dark';b.setAttribute('aria-pressed',k?'true':'false');b.setAttribute('aria-label',b.getAttribute(k?'data-label-light':'data-label-dark'));var c=b.getAttribute('data-color-'+t),m=document.querySelectorAll('meta[name=theme-color]');for(var i=0;i<m.length;i++)m[i].content=c}s(d.getAttribute('data-theme'));document.addEventListener('click',function(e){var x=e.target;if(!x||!x.closest)return;if(b&&b.contains(x)){var t=d.getAttribute('data-theme')==='dark'?'light':'dark';d.setAttribute('data-theme',t);d.style.colorScheme=t;try{localStorage.setItem('theme',t)}catch(z){}s(t);return}var a=x.closest('a');if(!a)return;if(a.rel==='alternate'&&a.hasAttribute('hreflang')){try{localStorage.setItem('lang',a.getAttribute('hreflang'))}catch(z){}}var n=a.closest('details.menu');if(n)n.removeAttribute('open')})})();";
+---
+<html lang={locale} dir={dir}>
+  <head>
+    <script is:inline set:html={themeInit}></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content={site.themeColor.light} media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content={site.themeColor.dark} media="(prefers-color-scheme: dark)" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo
+      locale={locale} title={title} description={description} path={path} ogType={ogType} noindex={noindex}
+      ogAlt={ogAlt} alternates={alternates} hasTwin={hasTwin} canonical={canonical} rss={rss}
+      published={published} modified={modified}
+    />
+    {ld && <JsonLd data={ld} />}
+    {locale === 'ar' ? (
+      <Font cssVariable="--font-arabic" preload={[{ weight: 400, style: 'normal', subset: 'arabic' }, { weight: 600, style: 'normal', subset: 'arabic' }, { weight: 400, style: 'normal', subset: 'latin' }, { weight: 600, style: 'normal', subset: 'latin' }]} />
+    ) : (
+      <>
+        <Font cssVariable="--font-sans" preload={[{ weight: 400, style: 'normal', subset: 'latin' }]} />
+        <Font cssVariable="--font-serif" />
+        <Font cssVariable="--font-mono" />
+      </>
+    )}
+    <slot name="head" />
+  </head>
+  <body class:list={[{ 'has-sticky': sticky }]}>
+    <a class="skip" href="#main">{c.site.skip}</a>
+    <Header locale={locale} path={path} current={current} langSwitchHref={langSwitchHref} hasTwin={hasTwin} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} path={path} langSwitchHref={langSwitchHref} hasTwin={hasTwin} />
+    {sticky && <StickyCta locale={locale} />}
+    <script is:inline set:html={bodyHandler}></script>
+    <slot name="end" />
+  </body>
+</html>

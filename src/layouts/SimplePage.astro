@@ -1,0 +1,22 @@
+---
+/** Thanks page (both locales): one paragraph, WhatsApp, link home. noindex, no sticky bar. */
+import BaseLayout from './BaseLayout.astro';
+import { whatsappLink } from '../config/site';
+import { t, localeUrl, type Locale } from '../i18n';
+import WhatsApp from '../icons/whatsapp.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+---
+<BaseLayout locale={locale} title={c.seo.thanks.title} description={c.seo.thanks.description} path="thanks" noindex sticky={false} ogAlt={c.seo.thanks.og_alt}>
+  <div class="doc simple-page">
+    <h1>{c.thanks.h1}</h1>
+    <p>{c.thanks.body}</p>
+    <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+      <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+      <span>{c.thanks.cta}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+    </a>
+    <p><a href={localeUrl(locale)}>{c.thanks.home}</a></p>
+  </div>
+</BaseLayout>

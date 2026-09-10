@@ -1,0 +1,40 @@
+{
+  "key": "budget-control-mixin",
+  "nodes": [
+    { "id": "project", "type": "std", "x": 3, "y": 6, "w": 26, "idLine": "project.project",
+      "label": { "en": "Project", "ar": "المشروع" },
+      "flow": { "en": "carries CSI cost codes", "ar": "يحمل رموز التكاليف CSI" } },
+    { "id": "csi-cost-codes", "type": "custom", "x": 37, "y": 6, "w": 26,
+      "label": { "en": "CSI cost codes", "ar": "رموز التكاليف CSI" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "boq-comparison", "type": "custom", "x": 71, "y": 6, "w": 26,
+      "label": { "en": "BOQ comparison", "ar": "مقارنة BOQ" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "manpower-analytics", "type": "custom", "x": 3, "y": 38, "w": 26,
+      "label": { "en": "Manpower analytics", "ar": "تحليلات القوى العاملة" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "dashboards", "type": "custom", "x": 71, "y": 38, "w": 26,
+      "label": { "en": "Management dashboards", "ar": "لوحات المعلومات للإدارة" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "budget-control-mixin", "type": "custom", "key": true, "x": 37, "y": 38, "w": 26,
+      "label": { "en": "Budget-control mixin", "ar": "وحدة mixin لضبط الميزانية" },
+      "flow": { "en": "enforces spending limits on purchase requests, receipts and payment documents", "ar": "تفرض حدود الإنفاق على طلبات الشراء وإيصالات الاستلام ومستندات الدفع" } },
+    { "id": "purchase-request", "type": "custom", "x": 3, "y": 70, "w": 26,
+      "label": { "en": "Purchase request", "ar": "طلب الشراء" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "receipt", "type": "std", "x": 37, "y": 70, "w": 26,
+      "label": { "en": "Receipt", "ar": "إيصال الاستلام" },
+      "flow": { "en": "", "ar": "" } },
+    { "id": "payment-document", "type": "std", "x": 71, "y": 70, "w": 26,
+      "label": { "en": "Payment document", "ar": "مستند الدفع" },
+      "flow": { "en": "", "ar": "" } }
+  ],
+  "links": [
+    { "from": "project", "to": "csi-cost-codes", "kind": "muted", "arrow": "end" },
+    { "from": "budget-control-mixin", "to": "purchase-request", "kind": "accent", "arrow": "end",
+      "waypoints": [ { "x": 50, "y": 61 }, { "x": 16, "y": 61 } ] },
+    { "from": "budget-control-mixin", "to": "receipt", "kind": "accent", "arrow": "end" },
+    { "from": "budget-control-mixin", "to": "payment-document", "kind": "accent", "arrow": "end",
+      "waypoints": [ { "x": 50, "y": 61 }, { "x": 84, "y": 61 } ] }
+  ]
+}

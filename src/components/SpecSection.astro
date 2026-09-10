@@ -1,0 +1,32 @@
+---
+/**
+ * Indexed document section: margin column (index + running title + vertical rule)
+ * and a reading column headed by the h2. design-spec §4.0 / §5.1.
+ */
+interface Props {
+  id: string;
+  index: string;
+  runningTitle: string;
+  heading: string;
+  band?: boolean;
+  class?: string;
+  headingClass?: string;
+}
+const { id, index, runningTitle, heading, band = false, class: cls, headingClass } = Astro.props;
+---
+<section id={id} class:list={['section', { band }, cls]} aria-labelledby={`${id}-h2`}>
+  <div class="doc">
+    <div class="spec">
+      <div class="spec__margin" aria-hidden="true">
+        <div class="spec__index mono">
+          <span class="spec__label">{index}</span>
+          <span class="spec__title">{runningTitle}</span>
+        </div>
+      </div>
+      <div class="spec__body">
+        <h2 id={`${id}-h2`} class={headingClass}>{heading}</h2>
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>

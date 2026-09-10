@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { t, type Locale } from '../../i18n';
+import SpecSection from '../SpecSection.astro';
+import EngagementSummary from './EngagementSummary.astro';
+
+interface Props { locale: Locale; entries: CollectionEntry<'engagements'>[] }
+const { locale, entries } = Astro.props;
+const w = t(locale).work;
+const sorted = [...entries].sort((a, b) => a.data.order - b.data.order);
+---
+<SpecSection id="work" index={w.index} runningTitle={w.running_title} heading={w.h2}>
+  {sorted.map((entry) => <EngagementSummary locale={locale} entry={entry} />)}
+</SpecSection>

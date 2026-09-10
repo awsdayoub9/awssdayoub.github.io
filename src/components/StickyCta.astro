@@ -1,0 +1,20 @@
+---
+import { whatsappLink, mailtoLink } from '../config/site';
+import { t, type Locale } from '../i18n';
+import WhatsApp from '../icons/whatsapp.svg';
+import Mail from '../icons/mail.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+---
+<div class="sticky-cta" role="region" aria-label={c.sticky.aria_label}>
+  <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+    <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+    <span>{c.sticky.whatsapp}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+  </a>
+  <a class="btn btn--outline" href={mailtoLink(c.cta.email_subject)}>
+    <Mail class="icon" aria-hidden="true" focusable="false" />
+    <span>{c.sticky.email}</span>
+  </a>
+</div>

@@ -1,0 +1,48 @@
+---
+/**
+ * Insights index: built only when at least one non-draft article exists in the locale. Page copy comes
+ * from a `pages` entry with translationKey "insights" when the writers supply one, otherwise from
+ * src/i18n/doc.<locale>.json. The list itself comes from the collection.
+ */
+import { render } from 'astro:content';
+import DocPage from './DocPage.astro';
+import Chip from '../components/Chip.astro';
+import { t, td, localeUrl, formatDate, isoDate, type Locale } from '../i18n';
+import { articles, getPage } from '../seo/pages';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+const d = td(locale);
+const idx = await getPage(locale, 'insights');
+const list = await articles(locale);
+const Content = idx ? (await render(idx)).Content : null;
+const newest = list.reduce<Date | undefined>((m, a) => (!m || a.data.updated > m ? a.data.updated : m), undefined);
+const meta = idx
+  ? { title: idx.data.title, description: idx.data.description, h1: idx.data.h1, lead: idx.data.lead, ogAlt: idx.data.og_alt, breadcrumb: idx.data.breadcrumb, cta: idx.data.cta, related: idx.data.related, updated: idx.data.updated }
+  : {
+      title: d.insights.title, description: d.insights.description, h1: d.insights.h1, lead: d.insights.lead, ogAlt: d.insights.og_alt,
+      breadcrumb: d.insights.breadcrumb,
+      cta: { heading: c.contact.h3, body: c.faq.card.body, whatsapp_label: c.cta.whatsapp, email_label: c.contact.email_button },
+      related: ['/services/', '/how-i-work/'],
+      updated: newest,
+    };
+---
+<DocPage locale={locale} key="insights" kind="index" title={meta.title} description={meta.description} h1={meta.h1} lead={meta.lead} ogAlt={meta.ogAlt} breadcrumb={meta.breadcrumb} cta={meta.cta} related={meta.related} updated={meta.updated} current="insights">
+  {Content && <Content />}
+  <ol class="insights-list">
+    {list.map((a) => {
+      const date = a.data.pubDate ?? a.data.updated;
+      return (
+        <li>
+          <a href={localeUrl(locale, a.data.translationKey)}>
+            <time class="mono muted" datetime={isoDate(date)}>{formatDate(date, locale)}</time>
+            <span class="insights__title">{a.data.h1}</span>
+            <span class="insights__desc small">{a.data.description}</span>
+          </a>
+          {a.data.tags.length > 0 && <ul class="chips insights__tags" aria-label={d.tags}>{a.data.tags.map((tg) => <Chip noCase>{tg}</Chip>)}</ul>}
+        </li>
+      );
+    })}
+  </ol>
+</DocPage>

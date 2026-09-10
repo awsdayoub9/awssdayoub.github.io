@@ -1,0 +1,43 @@
+---
+/** Footer: wordmark + description, the six primary items plus Privacy and Download CV, then the meta row. */
+import { site, mailtoLink } from '../config/site';
+import { t, tk, localeUrl, fill, type Locale } from '../i18n';
+import { navItems, pageLink } from '../seo/pages';
+import LangSwitch from './LangSwitch.astro';
+
+interface Props { locale: Locale; path?: string; langSwitchHref?: string; hasTwin?: boolean }
+const { locale, path = '', langSwitchHref, hasTwin = true } = Astro.props;
+const c = t(locale);
+const year = new Date().getFullYear();
+const items = await navItems(locale);
+const privacyHref = await pageLink(locale, 'privacy');
+---
+<footer class="site-footer">
+  <div class="doc">
+    <div class="footer__top">
+      <div>
+        <a href={localeUrl(locale)} class="wordmark" aria-label={c.site.wordmark_aria}>
+          <span>{c.site.name}</span>
+          <span class="mono" aria-hidden="true">{c.site.wordmark_eyebrow}</span>
+        </a>
+        <p class="footer__desc">{c.footer.description}</p>
+      </div>
+      <nav class="footer__nav" aria-label={c.nav.footer_label}>
+        <ul>
+          {items.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          {privacyHref && <li><a href={privacyHref}>{tk(locale, 'nav.privacy')}</a></li>}
+          <li><a href={site.cvHref} download>{tk(locale, 'nav.cv')}</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta mono">
+      <span>{fill(c.footer.copyright, { year })}</span>
+      <a href={mailtoLink(c.cta.email_subject)}><bdi>{site.email}</bdi></a>
+      <a href={site.phoneHref} dir="ltr"><bdi>{site.phoneDisplay}</bdi></a>
+      <a href={site.linkedin} rel="noopener">LinkedIn</a>
+      <a href={site.github} rel="noopener">GitHub</a>
+      <LangSwitch locale={locale} path={path} href={langSwitchHref} hasTwin={hasTwin} />
+      <span>{c.footer.built}</span>
+    </div>
+  </div>
+</footer>

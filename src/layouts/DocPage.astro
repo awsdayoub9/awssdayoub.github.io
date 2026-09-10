@@ -1,0 +1,160 @@
+---
+/**
+ * The one document layout for every `pages` kind (hub, service, index, method, about, faq, privacy,
+ * article): breadcrumb row, spec margin (parent + running title), H1 + lead, the body slot rendered
+ * with document typography (H2 indices in the margin, ledger tables, hairline-dash lists), the
+ * questions block as independent <details>, sources (articles), related links as ruled rows, the CTA
+ * row (WhatsApp primary + email). JSON-LD: WebPage/ProfilePage + BreadcrumbList (+ Article, + FAQPage
+ * on the faq kind only) merged with the shared nodes by BaseLayout.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Chip from '../components/Chip.astro';
+import { whatsappLink, mailtoLink } from '../config/site';
+import { t, td, bidi, localeUrl, formatDate, isoDate, type Locale } from '../i18n';
+import { webPage, breadcrumbList, article as articleNode, faqPage, ID, type Node, type Crumb } from '../seo/graph';
+import { hasTwin as twinOf, parentOf, currentFor, type PageKind, type NavKey } from '../seo/pages';
+import { resolveRelated } from '../seo/related';
+import WhatsApp from '../icons/whatsapp.svg';
+
+interface Props {
+  locale: Locale;
+  /** Locale-independent page key ("services/odoo-migration", "faq", "about"). */
+  key: string;
+  kind: PageKind;
+  title: string;
+  description: string;
+  h1: string;
+  lead: string;
+  ogAlt: string;
+  breadcrumb: string;
+  updated?: Date;
+  pubDate?: Date;
+  tags?: string[];
+  sources?: { label: string; url: string }[];
+  questions?: { q: string; a: string }[];
+  /** The Markdown body already renders the questions (FAQ page), so the frontmatter block is not repeated. */
+  questionsInBody?: boolean;
+  related?: string[];
+  cta: { heading: string; body: string; whatsapp_label: string; email_label: string };
+  current?: NavKey;
+  hasTwin?: boolean;
+  /** About page: ProfilePage + og:type profile. */
+  profile?: boolean;
+}
+const p = Astro.props;
+const { locale, key, kind } = p;
+const c = t(locale);
+const d = td(locale);
+const parent = await parentOf(locale, key);
+const twin = p.hasTwin ?? (await twinOf(locale, key));
+const crumbs: Crumb[] = [
+  { label: c.nav.home, href: localeUrl(locale) },
+  ...(parent ? [{ label: parent.label, href: parent.href }] : []),
+  { label: p.breadcrumb },
+];
+const isArticle = kind === 'article';
+const updatedIso = p.updated ? isoDate(p.updated) : undefined;
+const pubIso = p.pubDate ? isoDate(p.pubDate) : undefined;
+const graph: Node[] = [
+  webPage({
+    locale, path: key, name: p.title, description: p.description,
+    type: p.profile ? 'ProfilePage' : 'WebPage',
+    dateModified: updatedIso, datePublished: isArticle ? pubIso : undefined,
+    mainEntityId: p.profile ? ID.person : undefined, breadcrumb: true,
+  }),
+  breadcrumbList(locale, key, crumbs),
+  ...(isArticle ? [articleNode({ locale, path: key, headline: p.h1, description: p.description, datePublished: pubIso, dateModified: updatedIso, keywords: p.tags })] : []),
+  ...(kind === 'faq' && p.questions?.length ? [faqPage(locale, key, p.questions)] : []),
+];
+const related = await resolveRelated(locale, p.related ?? []);
+const questions = p.questions ?? [];
+// FAQ page: the body carries the questions grouped under H2s (rendered as <details> by the Markdown plugin);
+// questions[] feeds the FAQPage schema only and is never rendered as a second list there.
+const showQuestions = questions.length > 0 && !p.questionsInBody && kind !== 'faq';
+const sources = p.sources ?? [];
+const showUpdated = p.updated && (!pubIso || updatedIso !== pubIso);
+const current = p.current ?? currentFor(kind);
+const hostOf = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
+---
+<BaseLayout
+  locale={locale} title={p.title} description={p.description} path={key}
+  ogType={isArticle ? 'article' : p.profile ? 'profile' : 'website'} ogAlt={p.ogAlt}
+  current={current} hasTwin={twin} graph={graph} rss={isArticle} published={pubIso} modified={updatedIso}
+>
+  <article class:list={['doc', 'docpage', `docpage--${kind}`]} aria-labelledby="doc-h1">
+    <div class="detail__top">
+      <Breadcrumbs items={crumbs} label={c.nav.breadcrumb_label} />
+    </div>
+    <div class="spec docpage__spec">
+      <div class="spec__margin" aria-hidden="true">
+        <div class="spec__index mono">
+          {parent && <span class="spec__label">{parent.label}</span>}
+          <span class="spec__title">{p.breadcrumb}</span>
+        </div>
+      </div>
+      <div class="spec__body docpage__body">
+        <header class="docpage__head">
+          <h1 id="doc-h1">{p.h1}</h1>
+          <p class="docpage__lead">{bidi(p.lead)}</p>
+          {isArticle && (
+            <p class="mono docpage__meta">
+              <span>{d.author_by}{' '}<a href={localeUrl(locale, 'about')}>{c.site.name}</a></span>
+              {p.pubDate && <span>{d.published}{' '}<time datetime={pubIso}>{formatDate(p.pubDate, locale)}</time></span>}
+              {showUpdated && p.updated && <span>{d.updated}{' '}<time datetime={updatedIso}>{formatDate(p.updated, locale)}</time></span>}
+            </p>
+          )}
+          {isArticle && (p.tags?.length ?? 0) > 0 && (
+            <ul class="chips docpage__tags" aria-label={d.tags}>{p.tags!.map((tg) => <Chip noCase>{tg}</Chip>)}</ul>
+          )}
+        </header>
+        <slot name="before-body" />
+        <div class="doc-body"><slot /></div>
+        {showQuestions && (
+          <section class="docpage__questions" aria-labelledby="doc-questions">
+            <h2 id="doc-questions" class="doc-h2">{d.questions}</h2>
+            <div class="faq-list">
+              {questions.map((q) => (
+                <details class="faq">
+                  <summary><span>{q.q}</span><span class="faq__icon" aria-hidden="true"></span></summary>
+                  <div class="faq__body"><p>{bidi(q.a)}</p></div>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+        {isArticle && sources.length > 0 && (
+          <section class="docpage__sources" aria-labelledby="doc-sources">
+            <h2 id="doc-sources" class="doc-h2">{d.sources}</h2>
+            <ol class="sources-list">
+              {sources.map((s) => (
+                <li><a href={s.url} rel="noopener">{s.label}</a>{' '}<span class="mono muted sources__host" dir="ltr">{hostOf(s.url)}</span></li>
+              ))}
+            </ol>
+          </section>
+        )}
+        {related.length > 0 && (
+          <nav class="docpage__related" aria-labelledby="doc-related">
+            <h2 id="doc-related" class="h2--quiet">{d.related}</h2>
+            <ul class="related-list">
+              {related.map((r) => (
+                <li><a href={r.href}><span class="mono muted related__eyebrow">{r.eyebrow}</span><span class="related__title">{r.title}</span></a></li>
+              ))}
+            </ul>
+          </nav>
+        )}
+        <aside class="docpage__cta" aria-labelledby="doc-cta">
+          <h2 id="doc-cta">{p.cta.heading}</h2>
+          <p>{bidi(p.cta.body)}</p>
+          <div class="docpage__cta-row">
+            <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+              <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+              <span>{p.cta.whatsapp_label}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+            </a>
+            <a href={mailtoLink(c.cta.email_subject)}>{p.cta.email_label}</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

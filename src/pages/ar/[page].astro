@@ -1,0 +1,11 @@
+---
+/** Top-level document pages in Arabic: /ar/services/, /ar/work/, /ar/how-i-work/, /ar/faq/, /ar/privacy/. */
+import DocRoute from '../../layouts/DocRoute.astro';
+import { topLevelPaths } from '../../seo/routes';
+
+export async function getStaticPaths() {
+  return topLevelPaths('ar');
+}
+const { entry } = Astro.props;
+---
+<DocRoute locale="ar" entry={entry} />

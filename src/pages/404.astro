@@ -1,0 +1,37 @@
+---
+/**
+ * Bilingual not-found page served by GitHub Pages for any missing route (build-decisions C12):
+ * EN chrome, EN block then AR block, language switcher to the AR home, no sticky bar, noindex.
+ * Inline script (c) moves the Arabic block first when localStorage.lang === 'ar'.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { whatsappLink, mailtoLink, site } from '../config/site';
+import { t, localeUrl } from '../i18n';
+
+const en = t('en');
+const ar = t('ar');
+const reorder = "(function(){var l;try{l=localStorage.getItem('lang')}catch(e){}if(l==='ar'){var a=document.getElementById('nf-ar'),b=document.getElementById('nf-en');if(a&&b)b.parentNode.insertBefore(a,b)}})();";
+---
+<BaseLayout locale="en" title={en.seo.notfound.title} description={en.seo.notfound.description} path="404" noindex alternates={false} canonical={false} sticky={false} langSwitchHref={localeUrl('ar')} ogAlt={en.seo.notfound.og_alt}>
+  <div class="doc">
+    <section id="nf-en" class="notfound-block" lang="en" aria-labelledby="nf-en-h">
+      <h1 id="nf-en-h">{en.notfound.h1_en}</h1>
+      <p class="prose">{en.notfound.body_en}</p>
+      <p class="simple-page__links">
+        <a class="btn btn--outline" href={localeUrl('en')}>{en.notfound.home_en}</a>
+        <a href={whatsappLink(en.cta.whatsapp_prefill)} target="_blank" rel="noopener">{en.notfound.contact_en}<span class="sr-only">{' '}{en.cta.new_tab}</span></a>
+        <a href={mailtoLink(en.cta.email_subject)}><bdi>{site.email}</bdi></a>
+      </p>
+    </section>
+    <section id="nf-ar" class="notfound-block" lang="ar" dir="rtl" aria-labelledby="nf-ar-h">
+      <h2 id="nf-ar-h">{ar.notfound.h1_ar}</h2>
+      <p class="prose">{ar.notfound.body_ar}</p>
+      <p class="simple-page__links">
+        <a class="btn btn--outline" href={localeUrl('ar')}>{ar.notfound.home_ar}</a>
+        <a href={whatsappLink(ar.cta.whatsapp_prefill)} target="_blank" rel="noopener">{ar.notfound.contact_ar}<span class="sr-only">{' '}{ar.cta.new_tab}</span></a>
+        <a href={mailtoLink(ar.cta.email_subject)}><bdi>{site.email}</bdi></a>
+      </p>
+    </section>
+  </div>
+  <script is:inline slot="end" set:html={reorder}></script>
+</BaseLayout>

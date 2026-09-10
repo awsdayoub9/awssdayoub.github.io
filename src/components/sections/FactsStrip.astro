@@ -1,0 +1,14 @@
+---
+import { t, type Locale } from '../../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const f = t(locale).facts;
+---
+<section id="facts" class="facts" aria-label={f.aria_label}>
+  <div class="doc">
+    <p class="mono facts__caption">{f.caption}</p>
+    <ul class="facts__list">
+      {f.items.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</section>

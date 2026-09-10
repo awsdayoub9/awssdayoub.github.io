@@ -1,0 +1,121 @@
+---
+/**
+ * Module schematic: HTML nodes on a 4:3 stage with an SVG connector overlay.
+ * Geometry and labels come from src/data/schematics/<slug>.json (build-decisions C7).
+ * Positioned mode when the figure is wide enough; stacked list below the container-query threshold
+ * (see sections.css). Connectors are orthogonal, routed between rows via explicit waypoints, and stop
+ * 2 viewBox units short of the target edge so the arrowhead sits in the visible gap. Nodes are opaque,
+ * drawn above the SVG and grow downwards only (min-block-size), so a target's top edge never moves.
+ */
+import type { Locale } from '../i18n';
+
+type Kind = 'muted' | 'accent' | 'brass';
+interface Node {
+  id: string;
+  type: 'custom' | 'std' | 'ext' | 'actor';
+  key?: boolean;
+  x: number;
+  y: number;
+  w: number;
+  label: Record<Locale, string>;
+  idLine?: string;
+  flow: Record<Locale, string>;
+}
+interface Link { from: string; to: string; kind: Kind; waypoints?: { x: number; y: number }[]; arrow: 'end' | 'both' }
+export interface SchematicData { key: string; nodes: Node[]; links: Link[] }
+
+interface Props { data: SchematicData; locale: Locale; showIds?: boolean; uid: string }
+const { data, locale, showIds = false, uid } = Astro.props;
+
+const H = 14; // nominal node height in %
+const SX = 4; // viewBox units per % (400 x 300 stage)
+const SY = 3;
+const STAND = 2; // standoff between arrow tip and node edge, in viewBox units
+const ARROW = { w: 8, h: 6 }; // arrowhead size in viewBox units (design-spec §5.5)
+
+type Pt = { x: number; y: number; side?: 'top' | 'bottom' | 'start' | 'end' };
+const byId = new Map(data.nodes.map((n) => [n.id, n]));
+const clamp = (v: number, a: number, b: number) => Math.min(Math.max(v, a), b);
+const centre = (n: Node) => ({ x: n.x + n.w / 2, y: n.y + H / 2 });
+
+function anchor(n: Node, toward: { x: number; y: number }): Pt {
+  const x1 = n.x, y1 = n.y, x2 = n.x + n.w, y2 = n.y + H;
+  if (toward.y < y1) return { x: clamp(toward.x, x1 + 3, x2 - 3) * SX, y: y1 * SY, side: 'top' };
+  if (toward.y > y2) return { x: clamp(toward.x, x1 + 3, x2 - 3) * SX, y: y2 * SY, side: 'bottom' };
+  if (toward.x < x1) return { x: x1 * SX, y: clamp(toward.y, y1 + 2, y2 - 2) * SY, side: 'start' };
+  return { x: x2 * SX, y: clamp(toward.y, y1 + 2, y2 - 2) * SY, side: 'end' };
+}
+function standoff(p: Pt, d: number): Pt {
+  switch (p.side) {
+    case 'top': return { ...p, y: p.y - d };
+    case 'bottom': return { ...p, y: p.y + d };
+    case 'start': return { ...p, x: p.x - d };
+    default: return { ...p, x: p.x + d };
+  }
+}
+const r = (v: number) => Math.round(v * 10) / 10;
+
+const paths = data.links.map((l) => {
+  const a = byId.get(l.from);
+  const b = byId.get(l.to);
+  if (!a || !b) throw new Error(`Schematic ${uid}: unknown node in link ${l.from} -> ${l.to}`);
+  const wps = l.waypoints ?? [];
+  const firstToward = wps[0] ?? centre(b);
+  const lastToward = wps[wps.length - 1] ?? centre(a);
+  let p0 = anchor(a, firstToward);
+  let pn = standoff(anchor(b, lastToward), STAND);
+  if (l.arrow === 'both') p0 = standoff(p0, STAND);
+  const pts = [p0, ...wps.map((w) => ({ x: w.x * SX, y: w.y * SY })), pn];
+  const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${r(p.x)} ${r(p.y)}`).join(' ');
+  return { d, kind: l.kind, both: l.arrow === 'both' };
+});
+
+const kinds: Kind[] = ['muted', 'accent', 'brass'];
+const markerId = (k: Kind) => `m-${uid}-${k}`;
+---
+<div class="schematic">
+  <svg class="schematic__links" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <defs>
+      {kinds.map((k) => (
+        <marker
+          id={markerId(k)}
+          class={`marker marker--${k}`}
+          viewBox={`0 0 ${ARROW.w} ${ARROW.h}`}
+          markerUnits="userSpaceOnUse"
+          markerWidth={ARROW.w}
+          markerHeight={ARROW.h}
+          refX={ARROW.w}
+          refY={ARROW.h / 2}
+          orient="auto-start-reverse"
+        >
+          <path d={`M0 0L${ARROW.w} ${ARROW.h / 2}L0 ${ARROW.h}Z`} />
+        </marker>
+      ))}
+    </defs>
+    {paths.map((p) => (
+      <path
+        class:list={['link', `link--${p.kind}`, { 'link--ink': p.kind !== 'brass' }]}
+        d={p.d}
+        pathLength={p.kind !== 'brass' ? 1 : undefined}
+        marker-end={`url(#${markerId(p.kind)})`}
+        marker-start={p.both ? `url(#${markerId(p.kind)})` : undefined}
+      />
+    ))}
+  </svg>
+  <ol class="schematic__nodes">
+    {data.nodes.map((n) => {
+      const flow = n.flow[locale] ?? '';
+      return (
+        <li
+          class:list={['node', `node--${n.type}`, { 'node--key': !!n.key }]}
+          style={`--x:${n.x};--y:${n.y};--w:${n.w}`}
+          data-arrow={flow ? '' : undefined}
+        >
+          <span class="node__label">{n.label[locale]}</span>
+          {showIds && n.idLine && <small class="node__id" dir="ltr" lang="en">{n.idLine}</small>}
+          {flow && <span class="node__flow">{flow}</span>}
+        </li>
+      );
+    })}
+  </ol>
+</div>

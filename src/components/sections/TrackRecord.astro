@@ -1,0 +1,38 @@
+---
+import { statSync } from 'node:fs';
+import { site } from '../../config/site';
+import { t, fill, type Locale } from '../../i18n';
+import SpecSection from '../SpecSection.astro';
+import Ledger from '../Ledger.astro';
+import LedgerRow from '../LedgerRow.astro';
+import CellGrid from '../CellGrid.astro';
+import VersionRail from '../VersionRail.astro';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const r = t(locale).record;
+const cvKb = Math.round(statSync(site.cvFile).size / 1024);
+---
+<SpecSection id="record" index={r.index} runningTitle={r.running_title} heading={r.h2}>
+  <Ledger class="ledger--roles">
+    {r.roles.map((role) => (
+      <LedgerRow label={role.period}>
+        <p class="role__employer">{role.employer}</p>
+        <p class="role__title">{role.role}</p>
+        <p class="role__summary small">{role.summary}</p>
+      </LedgerRow>
+    ))}
+  </Ledger>
+  <CellGrid cols="creds" class="creds">
+    {r.credentials.map((cred, i) => (
+      <div class="cell">
+        <h3 class="cred__label">{cred.label}</h3>
+        <p class="cred__value"><bdi>{cred.value}</bdi></p>
+        {i === r.credentials.length - 1 && <VersionRail locale={locale} />}
+      </div>
+    ))}
+  </CellGrid>
+  <p class="record__cv">
+    <a class="btn btn--outline" href={site.cvHref} download>{fill(r.cv_button, { size: cvKb })}</a>
+  </p>
+</SpecSection>

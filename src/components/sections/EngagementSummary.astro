@@ -1,0 +1,50 @@
+---
+/** Home-page engagement article: header row, ledger + schematic figure. design-spec §4.8 as amended by A6. */
+import type { CollectionEntry } from 'astro:content';
+import { t, localeUrl, type Locale } from '../../i18n';
+import Ledger from '../Ledger.astro';
+import LedgerRow from '../LedgerRow.astro';
+import Chip from '../Chip.astro';
+import SchematicFigure from '../SchematicFigure.astro';
+import Arrow from '../../icons/arrow.svg';
+
+interface Props { locale: Locale; entry: CollectionEntry<'engagements'> }
+const { locale, entry } = Astro.props;
+const e = entry.data;
+const c = t(locale);
+const L = c.work.ledger_labels;
+const deliveredLabel = e.status === 'progress' ? L.delivered_progress : L.delivered;
+const detailUrl = localeUrl(locale, `work/${e.key}`);
+const headingId = `work-${e.key}-h3`;
+---
+<article class="engagement" id={`work-${e.key}`} aria-labelledby={headingId}>
+  <div class="engagement__head">
+    <p class="mono engagement__sector">{e.sector}</p>
+    <h3 class="engagement__title" id={headingId}>{e.title}</h3>
+    <p class="mono status"><bdi>{e.status_label}</bdi></p>
+  </div>
+  <div class="engagement__body">
+    <div class="engagement__ledger">
+      <Ledger>
+        <LedgerRow label={L.client}>
+          {e.client}
+          {e.attribution && <span class="mono attribution">{e.attribution}</span>}
+        </LedgerRow>
+        <LedgerRow label={L.period}><span class="tnum">{e.period}</span></LedgerRow>
+        <LedgerRow label={L.role}>{e.role}</LedgerRow>
+        <LedgerRow label={L.situation}>{e.situation}</LedgerRow>
+        <LedgerRow label={L.scope}>{e.scope}</LedgerRow>
+        <LedgerRow label={deliveredLabel}>{e.delivered}</LedgerRow>
+        <LedgerRow label={L.stack}>
+          <ul class="chips stack">{e.stack.map((s) => <Chip noCase lang="en" dir="ltr">{s}</Chip>)}</ul>
+        </LedgerRow>
+      </Ledger>
+      <p class="engagement__more">
+        <a class="btn btn--text" href={detailUrl}>{c.work.read_more}<Arrow class="icon icon-dir" aria-hidden="true" focusable="false" /></a>
+      </p>
+    </div>
+    <div class="engagement__figure">
+      <SchematicFigure slug={e.key} locale={locale} alt={e.schematic_alt} titleblock={e.titleblock} uid={`home-${e.key}`} />
+    </div>
+  </div>
+</article>

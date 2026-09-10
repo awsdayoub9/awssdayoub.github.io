@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import FactsStrip from '../components/sections/FactsStrip.astro';
+import Situations from '../components/sections/Situations.astro';
+import Services from '../components/sections/Services.astro';
+import Process from '../components/sections/Process.astro';
+import Terms from '../components/sections/Terms.astro';
+import WorkSummaries from '../components/sections/WorkSummaries.astro';
+import TrackRecord from '../components/sections/TrackRecord.astro';
+import Technical from '../components/sections/Technical.astro';
+import Faq from '../components/sections/Faq.astro';
+import Contact from '../components/sections/Contact.astro';
+import { t, type Locale } from '../i18n';
+import { webPage, ID } from '../seo/graph';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+const entries = await getCollection('engagements', (e) => e.data.lang === locale);
+const graph = [
+  webPage({ locale, path: '', name: c.seo.home.title, description: c.seo.home.description, mainEntityId: ID.person }),
+];
+---
+<BaseLayout locale={locale} title={c.seo.home.title} description={c.seo.home.description} path="" ogType="profile" ogAlt={c.seo.home.og_alt} graph={graph}>
+  <Hero locale={locale} />
+  <FactsStrip locale={locale} />
+  <Situations locale={locale} />
+  <Services locale={locale} />
+  <Process locale={locale} />
+  <Terms locale={locale} />
+  <WorkSummaries locale={locale} entries={entries} />
+  <TrackRecord locale={locale} />
+  <Technical locale={locale} />
+  <Faq locale={locale} />
+  <Contact locale={locale} />
+</BaseLayout>

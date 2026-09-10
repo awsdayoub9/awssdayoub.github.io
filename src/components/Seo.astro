@@ -1,0 +1,81 @@
+---
+/**
+ * Per-page head: title, description, canonical, hreflang, Open Graph, Twitter card, RSS autodiscovery,
+ * favicon set and manifest (design-spec §11, seo-technical §3–4, seo-decisions).
+ *  - hreflang en/ar/x-default only for true twins; a page without a twin lists itself + x-default.
+ *  - noindex pages (thanks) emit no alternates; the 404 page emits neither canonical nor alternates.
+ */
+import { site, ogImage } from '../config/site';
+import { t, td, absoluteUrl, localeUrl, otherLocale, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Locale-independent path: '' (home), 'work/<slug>', 'faq', 'thanks' */
+  path?: string;
+  ogType?: 'website' | 'profile' | 'article';
+  noindex?: boolean;
+  ogAlt?: string;
+  /** Emit hreflang alternates at all (false for the 404 page). */
+  alternates?: boolean;
+  /** The same page exists in the other locale. */
+  hasTwin?: boolean;
+  /** Emit a canonical link (false for the 404 page). */
+  canonical?: boolean;
+  /** Advertise this locale's RSS feed (only when the feed route exists). */
+  rss?: boolean;
+  /** ISO dates for article:published_time / article:modified_time (articles and case studies). */
+  published?: string;
+  modified?: string;
+}
+
+const {
+  locale, title, description, path = '', ogType = 'website', noindex = false, ogAlt,
+  alternates = true, hasTwin = true, canonical = true, rss = false, published, modified,
+} = Astro.props;
+const c = t(locale);
+const other = otherLocale(locale);
+const self = absoluteUrl(locale, path);
+const image = ogImage(locale);
+const showAlternates = alternates && !noindex;
+const alts = showAlternates
+  ? [
+      ...(hasTwin
+        ? [{ lang: 'en', href: absoluteUrl('en', path) }, { lang: 'ar', href: absoluteUrl('ar', path) }]
+        : [{ lang: locale, href: self }]),
+      { lang: 'x-default', href: hasTwin ? absoluteUrl('en', path) : self },
+    ]
+  : [];
+const ogLocale = locale === 'ar' ? 'ar_SA' : 'en_US';
+const ogAlternate = other === 'ar' ? 'ar_SA' : 'en_US';
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex" />}
+{canonical && <link rel="canonical" href={self} />}
+{alts.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+<link rel="sitemap" href="/sitemap-index.xml" />
+{rss && <link rel="alternate" type="application/rss+xml" title={td(locale).rss.title} href={`${localeUrl(locale)}rss.xml`} />}
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={self} />
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogAlt ?? c.og.alt} />
+<meta property="og:locale" content={ogLocale} />
+{hasTwin && !noindex && <meta property="og:locale:alternate" content={ogAlternate} />}
+{ogType === 'article' && published && <meta property="article:published_time" content={published} />}
+{ogType === 'article' && modified && <meta property="article:modified_time" content={modified} />}
+{ogType === 'article' && <meta property="article:author" content={site.linkedin} />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/manifest.webmanifest" />

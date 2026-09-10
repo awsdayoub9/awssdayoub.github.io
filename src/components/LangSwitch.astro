@@ -1,0 +1,28 @@
+---
+/**
+ * Language switcher: a link, not a select (design-spec §7.2). It carries rel="alternate" + hreflang ONLY
+ * when the target is the true twin page; otherwise it is a plain link to the other locale's home with
+ * an aria-label saying so (seo-decisions, language switcher rule).
+ */
+import { t, td, localeUrl, otherLocale, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** Locale-independent path of the current page, so the link lands on the equivalent page. */
+  path?: string;
+  /** Override target (404 page links to the other locale's home). Never treated as a twin. */
+  href?: string;
+  hasTwin?: boolean;
+  class?: string;
+}
+const { locale, path = '', href, hasTwin = true, class: cls } = Astro.props;
+const other = otherLocale(locale);
+const label = t(locale).lang.switch_label;
+const twin = hasTwin && !href;
+const target = href ?? (hasTwin ? localeUrl(other, path) : localeUrl(other));
+---
+{twin ? (
+  <a class:list={['lang-link', cls]} href={target} hreflang={other} lang={other} rel="alternate">{label}</a>
+) : (
+  <a class:list={['lang-link', cls]} href={target} lang={other} aria-label={td(locale).lang_fallback_aria}>{label}</a>
+)}

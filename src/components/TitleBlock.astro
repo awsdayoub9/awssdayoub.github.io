@@ -1,0 +1,16 @@
+---
+/** Title block under the schematic stage. The Odoo cell shows the version only where the CV states it; otherwise "—" (never "ODOO / Odoo"). */
+import { t, type Locale } from '../i18n';
+interface Props { locale: Locale; values: { project: string; odoo: string; status: string; role: string } }
+const { locale, values } = Astro.props;
+const l = t(locale).titleblock;
+const raw = (values.odoo ?? '').trim();
+const known = raw && raw.toLowerCase() !== 'odoo' && raw !== l.odoo.trim();
+const odoo = known ? raw : '—';
+---
+<dl class="titleblock mono">
+  <div><dt>{l.project}</dt><dd>{values.project}</dd></div>
+  <div><dt>{l.odoo}</dt><dd><bdi>{odoo}</bdi></dd></div>
+  <div><dt>{l.status}</dt><dd>{values.status}</dd></div>
+  <div><dt>{l.role}</dt><dd>{values.role}</dd></div>
+</dl>

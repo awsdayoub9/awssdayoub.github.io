@@ -1,0 +1,12 @@
+---
+/** /insights/ (index) and /insights/<slug>/ — generated only when at least one non-draft article exists. */
+import DocRoute from '../../layouts/DocRoute.astro';
+import InsightsIndex from '../../layouts/InsightsIndex.astro';
+import { insightPaths } from '../../seo/routes';
+
+export async function getStaticPaths() {
+  return insightPaths('en');
+}
+const { index, entry } = Astro.props;
+---
+{index || !entry ? <InsightsIndex locale="en" /> : <DocRoute locale="en" entry={entry} />}

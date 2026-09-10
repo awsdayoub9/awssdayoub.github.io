@@ -1,0 +1,23 @@
+---
+import Sun from '../icons/sun.svg';
+import Moon from '../icons/moon.svg';
+import { site } from '../config/site';
+import { t, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+---
+<button
+  type="button"
+  class="theme-toggle"
+  aria-pressed="false"
+  aria-label={c.theme.to_dark}
+  data-label-dark={c.theme.to_dark}
+  data-label-light={c.theme.to_light}
+  data-color-light={site.themeColor.light}
+  data-color-dark={site.themeColor.dark}
+>
+  <Sun class="icon icon--sun" aria-hidden="true" focusable="false" />
+  <Moon class="icon icon--moon" aria-hidden="true" focusable="false" />
+</button>

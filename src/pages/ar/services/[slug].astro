@@ -1,0 +1,10 @@
+---
+import DocRoute from '../../../layouts/DocRoute.astro';
+import { servicePaths } from '../../../seo/routes';
+
+export async function getStaticPaths() {
+  return servicePaths('ar');
+}
+const { entry } = Astro.props;
+---
+<DocRoute locale="ar" entry={entry} />

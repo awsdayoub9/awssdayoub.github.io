@@ -1,0 +1,33 @@
+{
+  "name": "portfolio",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "node scripts/check.mjs",
+    "build": "astro build --force",
+    "postbuild": "node scripts/check-seo.mjs && node scripts/report.mjs",
+    "preview": "astro preview",
+    "check": "node scripts/check.mjs",
+    "check:seo": "node scripts/check-seo.mjs",
+    "og": "node scripts/og.mjs",
+    "icons": "node scripts/icons.mjs",
+    "sync": "node scripts/sync-engagements.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.0",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.1"
+  },
+  "devDependencies": {
+    "png-to-ico": "^3.0.2"
+  },
+  "allowScripts": {
+    "esbuild": true
+  }
+}

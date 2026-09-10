@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://awsdayoub.github.io/sitemap-index.xml

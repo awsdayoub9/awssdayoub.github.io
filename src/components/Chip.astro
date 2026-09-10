@@ -1,0 +1,5 @@
+---
+interface Props { noCase?: boolean; lang?: string; dir?: 'ltr' | 'rtl' }
+const { noCase = false, lang, dir } = Astro.props;
+---
+<li class:list={['chip', { 'chip--case': noCase }]} lang={lang} dir={dir}><slot /></li>

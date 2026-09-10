@@ -1,0 +1,14 @@
+{
+  "name": "Aws Dayoub — Odoo and ERP",
+  "short_name": "Aws Dayoub",
+  "description": "Odoo developer and ERP functional consultant.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F6F5F1",
+  "theme_color": "#F6F5F1",
+  "lang": "en",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -1,0 +1,80 @@
+---
+import { site, whatsappLink, mailtoLink } from '../../config/site';
+import { t, tk, absoluteUrl, bidi, type Locale } from '../../i18n';
+import { pageLink } from '../../seo/pages';
+import SpecSection from '../SpecSection.astro';
+import Availability from '../Availability.astro';
+import Ledger from '../Ledger.astro';
+import LedgerRow from '../LedgerRow.astro';
+import WhatsApp from '../../icons/whatsapp.svg';
+import Mail from '../../icons/mail.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale);
+const k = c.contact;
+const f = c.form;
+const next = absoluteUrl(locale, 'thanks');
+const privacyHref = await pageLink(locale, f.privacy_href ?? 'privacy');
+const privacyLabel = tk(locale, 'form.privacy_label');
+---
+<SpecSection id="contact" index={k.index} runningTitle={k.running_title} heading={k.h2}>
+  <div class="contact-grid">
+    <div class="contact__intro">
+      <h3>{k.h3}</h3>
+      <Availability locale={locale} />
+      <div class="contact__ctas">
+        <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+          <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+          <span>{c.cta.whatsapp}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+        </a>
+        <a class="btn btn--outline" href={mailtoLink(c.cta.email_subject)}>
+          <Mail class="icon" aria-hidden="true" focusable="false" />
+          <span>{k.email_button}</span>
+        </a>
+      </div>
+      <Ledger class="ledger--channels ledger--tight">
+        <LedgerRow label={k.channels.phone}><a href={site.phoneHref} dir="ltr"><bdi>{site.phoneDisplay}</bdi></a></LedgerRow>
+        <LedgerRow label={k.channels.email}><a href={mailtoLink(c.cta.email_subject)}><bdi>{site.email}</bdi></a></LedgerRow>
+        <LedgerRow label={k.channels.linkedin}><a href={site.linkedin} rel="noopener"><bdi>{site.linkedinLabel}</bdi></a></LedgerRow>
+        <LedgerRow label={k.channels.github}><a href={site.github} rel="noopener"><bdi>{site.githubLabel}</bdi></a></LedgerRow>
+        <LedgerRow label={k.channels.cv}><a href={site.cvHref} download>{c.nav.cv_long}</a></LedgerRow>
+      </Ledger>
+      <p class="contact__hours">{bidi(k.hours)}</p>
+    </div>
+    <form class="contact-form" action={site.formAction} method="POST" aria-labelledby="form-title">
+      <h3 id="form-title" class="sr-only">{f.title}</h3>
+      <input type="hidden" name="_subject" value={f.subject} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value={next} />
+      <input type="text" name="_honey" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="field">
+        <label for="f-name">{f.name}{' '}{f.required}</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="f-company">{f.company}{' '}<span class="muted">({f.optional})</span></label>
+        <input id="f-company" name="company" type="text" autocomplete="organization" />
+      </div>
+      <div class="field">
+        <label for="f-email">{f.email}{' '}{f.required}</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required dir="ltr" />
+      </div>
+      <div class="field">
+        <label for="f-need">{f.need}</label>
+        <select id="f-need" name="need">
+          <option value="" disabled selected>{f.need_placeholder}</option>
+          {f.need_options.map((o) => <option value={o}>{o}</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-message">{f.message}{' '}{f.required}</label>
+        <textarea id="f-message" name="message" rows="5" required aria-describedby="f-message-hint"></textarea>
+        <p id="f-message-hint" class="hint">{f.message_hint}</p>
+      </div>
+      <button class="btn btn--primary" type="submit">{f.submit}</button>
+      <p class="contact-form__note">{f.note}{privacyHref && <>{' '}<a href={privacyHref}>{privacyLabel}</a></>}</p>
+    </form>
+  </div>
+</SpecSection>

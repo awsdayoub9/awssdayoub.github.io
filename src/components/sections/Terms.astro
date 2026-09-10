@@ -1,0 +1,28 @@
+---
+import { t, type Locale } from '../../i18n';
+import { pageLink } from '../../seo/pages';
+import SpecSection from '../SpecSection.astro';
+import CellGrid from '../CellGrid.astro';
+import Arrow from '../../icons/arrow.svg';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const s = t(locale).terms;
+const moreHref = s.more ? await pageLink(locale, s.more_href ?? 'how-i-work') : '';
+---
+<SpecSection id="terms" index={s.index} runningTitle={s.running_title} heading={s.h2} band>
+  <CellGrid cols="auto">
+    {s.items.map((it) => (
+      <div class="cell term">
+        <span class="mono cell__index">{it.index}</span>
+        <h3 class="cell__title">{it.statement}</h3>
+        <p class="term__explain">{it.explain}</p>
+      </div>
+    ))}
+  </CellGrid>
+  {moreHref && (
+    <p class="after-grid">
+      <a class="btn btn--text" href={moreHref}>{s.more}<Arrow class="icon icon-dir" aria-hidden="true" focusable="false" /></a>
+    </p>
+  )}
+</SpecSection>

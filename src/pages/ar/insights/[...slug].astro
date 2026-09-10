@@ -1,0 +1,11 @@
+---
+import DocRoute from '../../../layouts/DocRoute.astro';
+import InsightsIndex from '../../../layouts/InsightsIndex.astro';
+import { insightPaths } from '../../../seo/routes';
+
+export async function getStaticPaths() {
+  return insightPaths('ar');
+}
+const { index, entry } = Astro.props;
+---
+{index || !entry ? <InsightsIndex locale="ar" /> : <DocRoute locale="ar" entry={entry} />}

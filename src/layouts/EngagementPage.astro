@@ -1,0 +1,106 @@
+---
+/** Engagement detail page (design-spec §4.16 as amended by build-decisions C21: no phase axis). */
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Ledger from '../components/Ledger.astro';
+import LedgerRow from '../components/LedgerRow.astro';
+import Chip from '../components/Chip.astro';
+import SchematicFigure from '../components/SchematicFigure.astro';
+import { whatsappLink, mailtoLink } from '../config/site';
+import { t, localeUrl, isoDate, type Locale } from '../i18n';
+import { webPage, breadcrumbList, article, type Crumb } from '../seo/graph';
+import { parentOf } from '../seo/pages';
+import Arrow from '../icons/arrow.svg';
+import WhatsApp from '../icons/whatsapp.svg';
+
+type Entry = CollectionEntry<'engagements'>;
+interface Props { locale: Locale; entry: Entry; prev?: Entry; next?: Entry }
+const { locale, entry, prev, next } = Astro.props;
+const e = entry.data;
+const c = t(locale);
+const L = c.work.ledger_labels;
+const R = c.work.record_labels;
+const seo = c.seo[e.key as keyof typeof c.seo] as { title: string; description: string; og_alt: string };
+const deliveredLabel = e.status === 'progress' ? L.delivered_progress : L.delivered;
+const path = `work/${e.key}`;
+const parent = await parentOf(locale, path);
+const backHref = parent?.href ?? localeUrl(locale);
+const crumbs: Crumb[] = [
+  { label: c.nav.home, href: localeUrl(locale) },
+  { label: parent?.label ?? c.nav.work, href: backHref },
+  { label: e.title },
+];
+const modified = e.updated ? isoDate(e.updated) : undefined;
+const graph = [
+  webPage({ locale, path, name: seo.title, description: seo.description, dateModified: modified, breadcrumb: true }),
+  breadcrumbList(locale, path, crumbs),
+  article({ locale, path, headline: e.title, description: seo.description, dateModified: modified, about: 'Odoo' }),
+];
+---
+<BaseLayout locale={locale} title={seo.title} description={seo.description} path={path} ogType="article" ogAlt={seo.og_alt} current="work" graph={graph} modified={modified}>
+  <article class="doc detail" aria-labelledby="detail-h1">
+    <div class="detail__top">
+      <Breadcrumbs items={crumbs} label={c.nav.breadcrumb_label} />
+      <a class="btn btn--text" href={backHref}><Arrow class="icon icon-dir icon-dir--back" aria-hidden="true" focusable="false" />{c.work.back}</a>
+    </div>
+    <header class="detail__hero">
+      <p class="mono engagement__sector">{e.sector}</p>
+      <h1 id="detail-h1">{e.title}</h1>
+      <p class="mono status"><bdi>{e.status_label}</bdi></p>
+    </header>
+    <div class="engagement__body">
+      <div class="engagement__ledger">
+        <Ledger>
+          <LedgerRow label={L.client}>
+            {e.client}
+            {e.attribution && <span class="mono attribution">{e.attribution}</span>}
+          </LedgerRow>
+          <LedgerRow label={L.period}><span class="tnum">{e.period}</span></LedgerRow>
+          <LedgerRow label={L.role}>{e.role}</LedgerRow>
+          <LedgerRow label={L.situation}>{e.situation_detail}</LedgerRow>
+          <LedgerRow label={L.approach}>{e.approach}</LedgerRow>
+          <LedgerRow label={L.scope}>{e.scope}</LedgerRow>
+          <LedgerRow label={deliveredLabel}>{e.delivered}</LedgerRow>
+          <LedgerRow label={L.stack}>
+            <ul class="chips stack">{e.stack.map((s) => <Chip noCase lang="en" dir="ltr">{s}</Chip>)}</ul>
+          </LedgerRow>
+        </Ledger>
+      </div>
+      <div class="engagement__figure">
+        <SchematicFigure slug={e.key} locale={locale} showIds alt={e.schematic_alt} titleblock={e.titleblock} note={e.detail_note || undefined} uid={`detail-${e.key}`} />
+      </div>
+    </div>
+    <section class="detail__record" aria-labelledby="record-h2">
+      <h2 id="record-h2">{R.heading}</h2>
+      <Ledger class="ledger--tight">
+        <LedgerRow label={R.version}><bdi>{e.record.version}</bdi></LedgerRow>
+        <LedgerRow label={R.modules}><ul>{e.record.modules.map((m) => <li>{m}</li>)}</ul></LedgerRow>
+        <LedgerRow label={R.integrations}><ul>{e.record.integrations.map((m) => <li>{m}</li>)}</ul></LedgerRow>
+        <LedgerRow label={R.role}>{e.record.role}</LedgerRow>
+        <LedgerRow label={R.status}>{e.record.status}</LedgerRow>
+      </Ledger>
+    </section>
+    <div class="detail__cta">
+      <a class="btn btn--primary" href={whatsappLink(c.cta.whatsapp_prefill)} target="_blank" rel="noopener">
+        <WhatsApp class="icon" aria-hidden="true" focusable="false" />
+        <span>{c.work.similar_cta}</span><span class="sr-only">{' '}{c.cta.new_tab}</span>
+      </a>
+      <a href={mailtoLink(c.cta.email_subject)}>{c.work.similar_email}</a>
+    </div>
+    <nav class="detail__nav" aria-label={c.nav.work}>
+      {prev ? (
+        <a href={localeUrl(locale, `work/${prev.data.key}`)} rel="prev" class="detail__nav--prev">
+          <span class="mono muted"><Arrow class="icon icon--sm icon-dir icon-dir--back" aria-hidden="true" focusable="false" />{c.work.prev}</span>
+          <span class="detail__nav-title">{prev.data.title}</span>
+        </a>
+      ) : <span></span>}
+      {next && (
+        <a href={localeUrl(locale, `work/${next.data.key}`)} rel="next" class="detail__nav--next">
+          <span class="mono muted">{c.work.next}<Arrow class="icon icon--sm icon-dir" aria-hidden="true" focusable="false" /></span>
+          <span class="detail__nav-title">{next.data.title}</span>
+        </a>
+      )}
+    </nav>
+  </article>
+</BaseLayout>

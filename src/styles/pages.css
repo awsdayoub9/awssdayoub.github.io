@@ -1,0 +1,135 @@
+/* Phase 2 — document pages (DocPage), work index, insights, chrome additions. Logical properties only. */
+
+/* ---------- header: six items must fit between 1000 and 1200px ---------- */
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .site-nav a { padding-inline: .5rem; }
+  .header-end { gap: var(--s-1); }
+}
+
+/* ---------- engagement attribution (home summary + detail page) ---------- */
+.attribution { display: block; margin-block-start: .375rem; color: var(--muted); }
+
+/* ---------- home additions ---------- */
+.service__more { margin-block-start: var(--s-3); }
+.service__more .btn--text { min-block-size: 2.25rem; }
+.faq-list + .after-grid { margin-block-start: var(--s-4); }
+
+/* ---------- document page frame ---------- */
+.docpage { padding-block-end: var(--s-6); }
+.docpage__spec { margin-block-start: var(--s-5); }
+.docpage .spec__index { background: var(--bg); z-index: 1; }
+.docpage__head { padding-block-end: var(--s-6); border-block-end: 1px solid var(--hairline); margin-block-end: var(--s-7); }
+.docpage__head h1 { max-inline-size: 26ch; }
+.docpage__lead { font-size: var(--fs-lead); color: var(--muted); max-inline-size: var(--lead-measure); margin-block-start: var(--s-5); }
+.docpage__meta { color: var(--muted); margin-block-start: var(--s-4); display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); }
+.docpage__meta a { color: var(--text); }
+.docpage__tags { margin-block-start: var(--s-4); }
+.docpage__body { counter-reset: doc-h2; min-inline-size: 0; }
+
+/* ---------- document typography (Markdown body) ---------- */
+.doc-body > * + * { margin-block-start: var(--s-4); }
+.doc-body p, .doc-body li, .doc-body blockquote { max-inline-size: var(--measure); }
+.doc-body h2, .docpage__body h2.doc-h2 { margin-block-start: var(--s-8); margin-block-end: var(--s-4); position: relative; max-inline-size: 30ch; }
+.doc-body > h2:first-child { margin-block-start: 0; }
+.doc-body h2::before, .docpage__body h2.doc-h2::before {
+  counter-increment: doc-h2; content: counter(doc-h2, decimal-leading-zero);
+  display: block; font-family: var(--font-label); font-size: var(--fs-label); font-weight: var(--label-weight);
+  letter-spacing: var(--label-ls); line-height: 1.4; color: var(--brass); margin-block-end: var(--s-2); font-variant-numeric: tabular-nums;
+}
+/* >= 900px: the index hangs in the spec margin, aligned with the heading (like the home sections) */
+@media (min-width: 900px) {
+  .doc-body h2::before, .docpage__body h2.doc-h2::before {
+    position: absolute; inset-inline-start: calc(-1 * (var(--margin-col) + var(--s-7))); inline-size: calc(var(--margin-col) - var(--s-4));
+    inset-block-start: .4em; margin: 0; text-align: start;
+  }
+}
+.doc-body h3 { margin-block-start: var(--s-6); margin-block-end: var(--s-3); }
+.doc-body h4 { font-size: var(--fs-statement); margin-block-start: var(--s-5); margin-block-end: var(--s-2); }
+.doc-body h2 + p, .doc-body h3 + p, .doc-body h2 + ul, .doc-body h3 + ul, .doc-body h2 + ol, .doc-body h3 + ol { margin-block-start: 0; }
+.doc-body ul { list-style: none; padding: 0; }
+.doc-body ul > li { position: relative; padding-inline-start: 1.25rem; }
+.doc-body li + li { margin-block-start: .5rem; }
+.doc-body ul > li::before { content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .8em; inline-size: .75rem; block-size: 1px; background: var(--border); }
+.doc-body ol { list-style: none; padding: 0; counter-reset: doc-ol; }
+.doc-body ol > li { position: relative; padding-inline-start: 2.25rem; counter-increment: doc-ol; }
+.doc-body ol > li::before { content: counter(doc-ol, decimal-leading-zero); position: absolute; inset-inline-start: 0; inset-block-start: .25em; font-family: var(--font-label); font-size: var(--fs-label); font-weight: var(--label-weight); color: var(--brass); font-variant-numeric: tabular-nums; line-height: 1.4; }
+.doc-body li > ul, .doc-body li > ol { margin-block-start: .5rem; }
+.doc-body blockquote { border-inline-start: 2px solid var(--brass); padding-inline-start: var(--s-4); color: var(--muted); font-family: var(--font-heading); font-size: var(--fs-statement); line-height: var(--lh-h3); }
+.doc-body blockquote p { color: inherit; }
+.doc-body code { font-family: var(--font-mono, ui-monospace, Consolas, monospace); font-size: .9em; background: var(--surface-2); padding: .05em .35em; border-radius: var(--r-1); direction: ltr; unicode-bidi: isolate; overflow-wrap: anywhere; }
+.doc-body pre { background: var(--surface); border: 1px solid var(--hairline); padding: var(--s-4); overflow-x: auto; font-size: var(--fs-small); }
+.doc-body pre code { background: none; padding: 0; }
+.doc-body hr { border: 0; border-block-start: 1px solid var(--hairline); margin-block: var(--s-6); }
+.doc-body img { border: 1px solid var(--hairline); }
+.doc-body a { overflow-wrap: anywhere; }
+/* ledger tables */
+.table-wrap { overflow-x: auto; max-inline-size: 100%; }
+.doc-body table { inline-size: 100%; border-collapse: collapse; font-size: var(--fs-small); font-variant-numeric: tabular-nums; min-inline-size: 36rem; }
+.doc-body th, .doc-body td { text-align: start; vertical-align: top; padding: var(--s-3) var(--s-4); max-inline-size: none; }
+.doc-body th:first-child, .doc-body td:first-child { padding-inline-start: 0; }
+.doc-body th:last-child, .doc-body td:last-child { padding-inline-end: 0; }
+.doc-body thead th { font-family: var(--font-label); font-size: var(--fs-label); font-weight: var(--label-weight); text-transform: var(--label-transform); letter-spacing: var(--label-ls); color: var(--muted); border-block-end: 2px solid var(--text); }
+.doc-body tbody tr { border-block-end: 1px solid var(--hairline); }
+.doc-body tbody th { font-weight: 600; }
+.doc-body td code { white-space: nowrap; }
+
+/* ---------- template blocks after the body ---------- */
+.docpage__index, .docpage__questions, .docpage__sources, .docpage__related, .docpage__cta { margin-block-start: var(--s-8); }
+.docpage__index { margin-block-start: 0; margin-block-end: var(--s-8); }
+.docpage__questions .faq-list { border-block-start: 1px solid var(--hairline); }
+.h2--quiet { font-size: var(--fs-h3); }
+.docpage__related h2 { margin-block-end: var(--s-4); }
+.related-list { list-style: none; margin: 0; padding: 0; border-block-start: 1px solid var(--hairline); }
+.related-list li { border-block-end: 1px solid var(--hairline); }
+.related-list a { display: grid; gap: .25rem var(--s-5); padding-block: var(--s-4); color: var(--text); text-decoration: none; }
+.related-list a:hover .related__title, .related-list a:focus-visible .related__title { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: .18em; }
+.related__title { font-family: var(--font-heading); font-size: var(--fs-statement); line-height: 1.3; }
+:lang(ar) .related__title { font-weight: 600; }
+@media (min-width: 600px) {
+  .related-list a { grid-template-columns: 9rem minmax(0, 1fr); align-items: baseline; }
+}
+.sources-list { list-style: none; margin: 0; padding: 0; counter-reset: src; border-block-start: 1px solid var(--hairline); }
+.sources-list li { position: relative; padding: var(--s-3) 0 var(--s-3) 0; padding-inline-start: 2.25rem; border-block-end: 1px solid var(--hairline); counter-increment: src; font-size: var(--fs-small); }
+.sources-list li::before { content: counter(src, decimal-leading-zero); position: absolute; inset-inline-start: 0; inset-block-start: calc(var(--s-3) + .25em); font-family: var(--font-label); font-size: var(--fs-label); color: var(--brass); font-variant-numeric: tabular-nums; }
+.sources-list a { overflow-wrap: anywhere; }
+.sources__host { text-transform: none; letter-spacing: 0; }
+.docpage__cta { padding: var(--s-6); background: var(--surface); border: 1px solid var(--hairline); display: grid; gap: var(--s-3); }
+.docpage__cta h2 { font-size: var(--fs-h3); }
+.docpage__cta p { max-inline-size: var(--measure); }
+.docpage__cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4); margin-block-start: var(--s-2); }
+@media (max-width: 479px) {
+  .docpage__cta { padding: var(--s-5); }
+  .docpage__cta-row .btn { flex: 1 1 100%; }
+}
+
+/* ---------- work index (from the engagements collection) ---------- */
+.workindex { list-style: none; margin: 0; padding: 0; border-block-start: 1px solid var(--hairline); }
+.workindex li { border-block-end: 1px solid var(--hairline); }
+.workindex a { display: grid; gap: .25rem var(--s-5); padding-block: var(--s-4); color: var(--text); text-decoration: none; align-items: baseline; }
+.workindex a:hover .workindex__title, .workindex a:focus-visible .workindex__title { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: .18em; }
+.workindex__title { font-family: var(--font-heading); font-size: var(--fs-statement); line-height: 1.3; }
+:lang(ar) .workindex__title { font-weight: 600; }
+.workindex__status { margin-inline-start: 0; white-space: normal; }
+@media (min-width: 700px) {
+  .workindex a { grid-template-columns: 9rem minmax(0, 1fr) auto; }
+  .workindex__status { white-space: nowrap; }
+}
+
+/* ---------- insights index ---------- */
+.insights-list { list-style: none; margin: 0; padding: 0; border-block-start: 1px solid var(--hairline); }
+.insights-list li { border-block-end: 1px solid var(--hairline); padding-block-end: var(--s-4); }
+.insights-list a { display: grid; gap: .375rem; padding-block-start: var(--s-5); color: var(--text); text-decoration: none; }
+.insights-list a:hover .insights__title, .insights-list a:focus-visible .insights__title { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: .18em; }
+.insights__title { font-family: var(--font-heading); font-size: var(--fs-h3); line-height: var(--lh-h3); max-inline-size: 30ch; }
+:lang(ar) .insights__title { font-weight: 600; }
+.insights__desc { color: var(--muted); max-inline-size: var(--measure); }
+.insights__tags { margin-block-start: var(--s-3); }
+
+/* ---------- about page actions ---------- */
+.about__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4); margin-block-start: var(--s-6) !important; }
+
+/* ---------- print ---------- */
+@media print {
+  .docpage__cta, .docpage__related { display: none !important; }
+  .doc-body h2::before, .docpage__body h2.doc-h2::before { position: static; }
+}
