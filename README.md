@@ -16,7 +16,8 @@ reorder), together under 1.5 KB.
 | `npm run check:seo` | SEO checks over `dist/` (set `DIST=<dir>` for another output folder). |
 | `npm run preview` | Serve `dist/` locally. |
 | `npm run sync` | Regenerate `src/content/engagements/*.md` from the `engagements` object of `src/i18n/*.json`. |
-| `npm run og` / `npm run icons` | Regenerate the OG images / favicons (not part of the build). |
+| `npm run og` | Regenerate the OG images (not part of the build). |
+| `node scripts/icons.mjs <SourceSerif4-600.ttf>` | Regenerate the favicon set (AD monogram as vector paths: favicon.svg, favicon.ico 16/32/48, icon-192/512.png, apple-touch-icon.png). Needs a static TTF of Source Serif 4 weight 600 only at generation time. |
 
 `--force` on the build clears Astro's content-layer cache. Markdown renders are cached by file digest, and the
 Markdown plugin's output depends on which pages are published (see "Publishing an article"), so a full render on

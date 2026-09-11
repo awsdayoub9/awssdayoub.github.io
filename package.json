@@ -25,6 +25,7 @@
     "astro": "^7.3.1"
   },
   "devDependencies": {
+    "opentype.js": "^2.0.0",
     "png-to-ico": "^3.0.2"
   },
   "allowScripts": {
