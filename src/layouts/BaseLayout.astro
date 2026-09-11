@@ -59,7 +59,7 @@ const themeInit = "(function(){var t;try{t=localStorage.getItem('theme')}catch(e
 // (b) end-of-body: theme toggle, language memory, close the mobile menu after a link click.
 const bodyHandler = "(function(){var d=document.documentElement,b=document.querySelector('.theme-toggle');function s(t){if(!b)return;var k=t==='dark';b.setAttribute('aria-pressed',k?'true':'false');b.setAttribute('aria-label',b.getAttribute(k?'data-label-light':'data-label-dark'));var c=b.getAttribute('data-color-'+t),m=document.querySelectorAll('meta[name=theme-color]');for(var i=0;i<m.length;i++)m[i].content=c}s(d.getAttribute('data-theme'));document.addEventListener('click',function(e){var x=e.target;if(!x||!x.closest)return;if(b&&b.contains(x)){var t=d.getAttribute('data-theme')==='dark'?'light':'dark';d.setAttribute('data-theme',t);d.style.colorScheme=t;try{localStorage.setItem('theme',t)}catch(z){}s(t);return}var a=x.closest('a');if(!a)return;if(a.rel==='alternate'&&a.hasAttribute('hreflang')){try{localStorage.setItem('lang',a.getAttribute('hreflang'))}catch(z){}}var n=a.closest('details.menu');if(n)n.removeAttribute('open')})})();";
 ---
-<html lang={locale} dir={dir}>
+<html lang={locale} dir={dir} translate="no">
   <head>
     <script is:inline set:html={themeInit}></script>
     <meta charset="utf-8" />
